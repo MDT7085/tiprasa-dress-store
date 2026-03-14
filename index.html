@@ -1,4 +1,5 @@
 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,26 +7,37 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Tiprasa Traditional Dress | Rignai Risa Store</title>
 <meta name="description" content="Buy authentic Tiprasa traditional dresses including Rignai, Risa, Takborok, Duti and tribal designs from Tripura.">
+<meta name="keywords" content="Rignai shop Tripura, Tiprasa traditional dress, Risa Tripura, Takborok blouse">
 
 <style>
 body{font-family:Arial;margin:0;background:#f4f4f4}
 header{background:#7a0c2e;color:white;padding:16px;text-align:center}
 nav{background:#111;color:white;padding:10px;text-align:center}
 nav button{margin:5px;padding:8px 12px;border:none;border-radius:5px;cursor:pointer}
+.banner img{width:100%;max-height:350px;object-fit:cover}
 .container{padding:20px}
 .search{width:100%;padding:10px;margin-bottom:20px;border-radius:6px;border:1px solid #ccc}
 .products{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px}
 .card{background:white;border-radius:10px;padding:15px;box-shadow:0 2px 6px rgba(0,0,0,0.1)}
 .card img{width:100%;height:200px;object-fit:cover;border-radius:8px}
+.gallery{display:flex;gap:5px;margin-top:5px}
+.gallery img{width:45px;height:45px;object-fit:cover;border-radius:5px;cursor:pointer;border:1px solid #ddd}
 .price{font-weight:bold}
-button{padding:8px 10px;border:none;border-radius:6px;cursor:pointer}
-.order{background:#25D366;color:white;width:100%;margin-top:10px}
-.pay{background:#4CAF50;color:white;width:100%;margin-top:6px}
-.delete{background:#d11a2a;color:white;margin-top:6px}
+.stock{font-size:13px;color:#555}
+button{padding:8px;border:none;border-radius:6px;cursor:pointer}
+.order{background:#25D366;color:white;width:100%;margin-top:8px}
+.cartbtn{background:#2196F3;color:white;width:100%;margin-top:6px}
+.delete{background:#d11a2a;color:white;margin-top:6px;width:100%}
+.edit{background:#ff9800;color:white;margin-top:6px;width:100%}
 .admin{margin-top:40px;background:white;padding:20px;border-radius:10px}
 input,select{padding:8px;margin:5px;width:100%}
 .login{background:white;padding:20px;border-radius:10px;max-width:400px;margin:auto;margin-top:40px}
 .hidden{display:none}
+.cart{position:fixed;right:0;top:0;background:white;width:280px;height:100%;box-shadow:-2px 0 6px rgba(0,0,0,0.2);padding:15px;overflow:auto}
+.cart h3{text-align:center}
+.cartitem{border-bottom:1px solid #ddd;padding:8px 0}
+.dashboard{background:white;padding:15px;margin-top:20px;border-radius:10px}
+.customerBox{background:white;padding:20px;border-radius:10px;max-width:400px;margin:auto;margin-top:20px}
 </style>
 </head>
 
@@ -35,6 +47,10 @@ input,select{padding:8px;margin:5px;width:100%}
 <h1>Tiprasa Traditional Dress Store</h1>
 <p>Authentic Tripura Tribal Clothing</p>
 </header>
+
+<div class="banner">
+<img id="bannerImage" src="https://via.placeholder.com/1200x350?text=Tiprasa+Traditional+Dress">
+</div>
 
 <nav>
 <button onclick="filterCategory('all')">All</button>
@@ -51,6 +67,15 @@ input,select{padding:8px;margin:5px;width:100%}
 
 <div class="products" id="productList"></div>
 
+<div class="customerBox" id="customerLogin">
+<h3>Customer Login</h3>
+<input id="custUser" placeholder="Email">
+<input id="custPass" type="password" placeholder="Password">
+<button onclick="customerLogin()">Login</button>
+<button onclick="customerRegister()">Register</button>
+<p id="custStatus"></p>
+</div>
+
 <div class="login" id="loginBox">
 <h2>Admin Login</h2>
 <input id="adminUser" placeholder="Username">
@@ -61,10 +86,16 @@ input,select{padding:8px;margin:5px;width:100%}
 <div class="admin hidden" id="adminPanel">
 <h2>Admin Dashboard</h2>
 
-<h3>Add Product (Product Wise Price)</h3>
-<input id="name" placeholder="Product Name (Example: Jamatia Rignai)">
-<input id="price" type="number" placeholder="Product Price ₹ (Example: 1500)">
-<input id="image" placeholder="Product Image URL">
+<h3>Banner Photo</h3>
+<input id="bannerInput" placeholder="Banner Image URL">
+<button onclick="setBanner()">Update Banner</button>
+
+<h3>Add / Edit Product</h3>
+<input id="name" placeholder="Product Name">
+<input id="price" type="number" placeholder="Product Price ₹">
+<input id="stock" type="number" placeholder="Stock Quantity">
+<input id="image" placeholder="Main Image URL">
+<input id="gallery" placeholder="More Image URLs (comma separated)">
 <select id="category">
 <option>Rignai</option>
 <option>Risa</option>
@@ -72,153 +103,223 @@ input,select{padding:8px;margin:5px;width:100%}
 <option>Blouse</option>
 <option>Duti</option>
 </select>
-<button onclick="addProduct()">Add Product With Price</button>
+<button onclick="addProduct()">Save Product</button>
 
-<h3>Orders</h3>
-<p>Orders will come to your WhatsApp.</p>
-
-<h3>UPI Payment</h3>
-<p>UPI ID: <b id="upiDisplay">yourupi@upi</b></p>
+<div class="dashboard">
+<h3>Sales Dashboard</h3>
+<p>Total Orders: <span id="totalOrders">0</span></p>
+<p>Total Sales ₹: <span id="totalSales">0</span></p>
+</div>
 
 </div>
 
+</div>
+
+<div class="cart" id="cartBox">
+<h3>Cart</h3>
+<div id="cartItems"></div>
+<button onclick="checkout()" style="background:#4CAF50;color:white;width:100%">Checkout WhatsApp</button>
 </div>
 
 <script>
 
-let products = JSON.parse(localStorage.getItem('products')) || [
-{name:"Tripura Rignai",price:1500,image:"https://via.placeholder.com/300",category:"Rignai"},
-{name:"Jamatia Rignai",price:1700,image:"https://via.placeholder.com/300",category:"Rignai"},
-{name:"Tiprasa Risa",price:600,image:"https://vajiramandravi.com/current-affairs/wp-content/uploads/2025/04/risa_textile.webp",category:"Risa"},
-{name:"Takborok Blouse",price:900,image:"https://via.placeholder.com/300",category:"Blouse"},
-{name:"Chandrahar",price:900,image:"https://via.placeholder.com/300",category:"Blouse"}
-]
+let editIndex=-1
+
+let products=JSON.parse(localStorage.getItem('products'))||[]
+let cart=JSON.parse(localStorage.getItem('cart'))||[]
+let orders=JSON.parse(localStorage.getItem('orders'))||[]
+let customers=JSON.parse(localStorage.getItem('customers'))||[]
 
 function save(){
 localStorage.setItem("products",JSON.stringify(products))
+localStorage.setItem("cart",JSON.stringify(cart))
+localStorage.setItem("orders",JSON.stringify(orders))
+localStorage.setItem("customers",JSON.stringify(customers))
 }
 
-function display(list = products){
-let html = ""
+function display(list=products){
+let html=""
 
-list.forEach((p,index)=>{
-html += `
-<div class="card">
-<img src="${p.image}" alt="${p.name}">
+list.forEach((p,i)=>{
+
+let galleryHTML=""
+if(p.gallery){
+p.gallery.forEach(img=>{
+galleryHTML+=`<img src="${img}" onclick="this.closest('.card').querySelector('.mainimg').src='${img}'">`
+})
+}
+
+html+=`<div class="card">
+<img class="mainimg" src="${p.image}">
 <h3>${p.name}</h3>
 <p class="price">₹${p.price}</p>
-<p>${p.category}</p>
+<p class="stock">Stock: ${p.stock||0}</p>
 
-<button class="order" onclick="orderProduct(${index})">Order WhatsApp</button>
-<button class="pay" onclick="upiPay(${p.price})">Pay UPI</button>
-<button class="delete" onclick="deleteProduct(${index})">Delete</button>
+<div class="gallery">${galleryHTML}</div>
 
-</div>
-`
+<button class="cartbtn" onclick="addCart(${i})">Add To Cart</button>
+<button class="order" onclick="orderProduct(${i})">Order WhatsApp</button>
+<button class="edit" onclick="editProduct(${i})">Edit</button>
+<button class="delete" onclick="deleteProduct(${i})">Delete</button>
+
+</div>`
 })
 
-document.getElementById("productList").innerHTML = html
+document.getElementById("productList").innerHTML=html
 }
 
 function addProduct(){
 
-let name = document.getElementById("name").value.trim()
-let price = document.getElementById("price").value
-let image = document.getElementById("image").value.trim()
-let category = document.getElementById("category").value
+let name=document.getElementById("name").value
+let price=document.getElementById("price").value
+let stock=document.getElementById("stock").value
+let image=document.getElementById("image").value
+let gallery=document.getElementById("gallery").value.split(",")
+let category=document.getElementById("category").value
 
-if(name === "" || price === "" || image === ""){
-alert("Please fill all product fields")
-return
+let product={name,price:Number(price),stock:Number(stock),image,gallery,category}
+
+if(editIndex===-1)products.push(product)
+else{products[editIndex]=product;editIndex=-1}
+
+save()
+display()
 }
 
-products.push({
-name:name,
-price:Number(price),
-image:image,
-category:category
+function editProduct(i){
+let p=products[i]
+name.value=p.name
+price.value=p.price
+stock.value=p.stock
+image.value=p.image
+gallery.value=(p.gallery||[]).join(",")
+category.value=p.category
+editIndex=i
+}
+
+function deleteProduct(i){
+products.splice(i,1)
+save()
+display()
+}
+
+function addCart(i){
+cart.push(products[i])
+save()
+renderCart()
+}
+
+function renderCart(){
+let html=""
+let total=0
+
+cart.forEach(c=>{
+html+=`<div class="cartitem">${c.name} ₹${c.price}</div>`
+total+=Number(c.price)
 })
 
-save()
+html+=`<p><b>Total ₹${total}</b></p>`
 
-document.getElementById("name").value=""
-document.getElementById("price").value=""
-document.getElementById("image").value=""
-
-display()
+document.getElementById("cartItems").innerHTML=html
 }
 
-function deleteProduct(index){
-products.splice(index,1)
+function checkout(){
+
+if(cart.length===0){alert("Cart empty");return}
+
+let total=cart.reduce((s,i)=>s+Number(i.price),0)
+
+let list=cart.map(i=>i.name).join(", ")
+
+let phone="9863653392"
+
+let message=`Hello I want to order:\nItems: ${list}\nTotal: ₹${total}`
+
+let url=`https://wa.me/${phone}?text=${encodeURIComponent(message)}`
+
+orders.push({items:list,total})
+cart=[]
+
 save()
-display()
+renderCart()
+updateDashboard()
+
+window.open(url)
+}
+
+function orderProduct(i){
+cart=[products[i]]
+checkout()
+}
+
+function updateDashboard(){
+let sales=orders.reduce((s,o)=>s+Number(o.total),0)
+
+document.getElementById("totalOrders").innerText=orders.length
+
+document.getElementById("totalSales").innerText=sales
 }
 
 function searchProduct(){
-let value = document.getElementById("search").value.toLowerCase()
-
-let filtered = products.filter(p =>
-p.name.toLowerCase().includes(value)
-)
-
-display(filtered)
+let v=search.value.toLowerCase()
+let f=products.filter(p=>p.name.toLowerCase().includes(v))
+display(f)
 }
 
-function filterCategory(cat){
-
-if(cat === "all"){
-display()
-return
+function filterCategory(c){
+if(c==='all'){display();return}
+let f=products.filter(p=>p.category===c)
+display(f)
 }
 
-let filtered = products.filter(p => p.category === cat)
-
-display(filtered)
-}
-
-function orderProduct(index){
-
-let product = products[index]
-
-let phone = "+19 9863653392"
-
-let message = `Hello, I want to order:\nProduct: ${product.name}\nPrice: ₹${product.price}`
-
-let url = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`
-
-window.open(url,"_blank")
-}
-
-function upiPay(price){
-
-let upi = "matindratripura911-1@oksbi"
-
-let paymentLink = `upi://pay?pa=${upi}&pn=TiprasaDress&am=${price}&cu=INR`
-
-window.open(paymentLink)
+function setBanner(){
+let url=bannerInput.value
+localStorage.setItem("banner",url)
+bannerImage.src=url
 }
 
 function login(){
+if(adminUser.value==='admin' && adminPass.value==='1234'){
+loginBox.classList.add("hidden")
+adminPanel.classList.remove("hidden")
+}else alert("Wrong login")
+}
 
-let u = document.getElementById("adminUser").value
-let p = document.getElementById("adminPass").value
+function customerRegister(){
+let u=custUser.value
+let p=custPass.value
 
-if(u === "admin" && p === "1234"){
+customers.push({u,p})
+save()
 
-document.getElementById("loginBox").classList.add("hidden")
+custStatus.innerText="Registered successfully"
+}
 
-document.getElementById("adminPanel").classList.remove("hidden")
+function customerLogin(){
+let u=custUser.value
+let p=custPass.value
 
+let found=customers.find(c=>c.u===u && c.p===p)
+
+if(found){
+custStatus.innerText="Login successful"
 }else{
-alert("Wrong login details")
+custStatus.innerText="Wrong login"
 }
 }
 
-// Start website
+let savedBanner=localStorage.getItem("banner")
+if(savedBanner)bannerImage.src=savedBanner
 
+renderCart()
 display()
+updateDashboard()
 
 </script>
+
+<footer style="text-align:center;padding:20px;background:#111;color:white;margin-top:40px">
+<p>Website Design & Developed by <b>MATINDRA TRIPURA</b></p>
+</footer>
 
 </body>
 </html>
