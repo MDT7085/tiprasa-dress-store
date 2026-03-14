@@ -1,101 +1,69 @@
-
-
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html><html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Tiprasa Traditional Dress | Rignai Risa Store</title>
-<meta name="description" content="Buy authentic Tiprasa traditional dresses including Rignai, Risa, Takborok, Duti and tribal designs from Tripura.">
-<meta name="keywords" content="Rignai shop Tripura, Tiprasa traditional dress, Risa Tripura, Takborok blouse">
-
-<style>
+<meta name="description" content="Buy authentic Tiprasa traditional dresses including Rignai, Risa, Takborok, Duti and tribal designs from Tripura."><style>
 body{font-family:Arial;margin:0;background:#f4f4f4}
 header{background:#7a0c2e;color:white;padding:16px;text-align:center}
 nav{background:#111;color:white;padding:10px;text-align:center}
 nav button{margin:5px;padding:8px 12px;border:none;border-radius:5px;cursor:pointer}
 .banner img{width:100%;max-height:350px;object-fit:cover}
-.container{padding:20px}
+
+.container{padding:20px;margin-right:300px}
 .search{width:100%;padding:10px;margin-bottom:20px;border-radius:6px;border:1px solid #ccc}
+
 .products{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px}
+
 .card{background:white;border-radius:10px;padding:15px;box-shadow:0 2px 6px rgba(0,0,0,0.1)}
-.card img{width:100%;height:200px;object-fit:cover;border-radius:8px}
-.gallery{display:flex;gap:5px;margin-top:5px}
-.gallery img{width:45px;height:45px;object-fit:cover;border-radius:5px;cursor:pointer;border:1px solid #ddd}
+.card img{width:100%;height:200px;object-fit:cover;border-radius:8px;cursor:pointer}
+
+.gallery{display:flex;gap:5px;margin-top:6px}
+.gallery img{width:40px;height:40px;object-fit:cover;border-radius:4px;border:1px solid #ddd;cursor:pointer}
+
 .price{font-weight:bold}
-.stock{font-size:13px;color:#555}
 button{padding:8px;border:none;border-radius:6px;cursor:pointer}
-.order{background:#25D366;color:white;width:100%;margin-top:8px}
 .cartbtn{background:#2196F3;color:white;width:100%;margin-top:6px}
-.delete{background:#d11a2a;color:white;margin-top:6px;width:100%}
+.order{background:#25D366;color:white;width:100%;margin-top:6px}
+
 .edit{background:#ff9800;color:white;margin-top:6px;width:100%}
-.admin{margin-top:40px;background:white;padding:20px;border-radius:10px}
-input,select{padding:8px;margin:5px;width:100%}
-.login{background:white;padding:20px;border-radius:10px;max-width:400px;margin:auto;margin-top:40px}
-.hidden{display:none}
+.delete{background:#d11a2a;color:white;margin-top:6px;width:100%}
+
 .cart{position:fixed;right:0;top:0;background:white;width:280px;height:100%;box-shadow:-2px 0 6px rgba(0,0,0,0.2);padding:15px;overflow:auto}
-.cart h3{text-align:center}
-.cartitem{border-bottom:1px solid #ddd;padding:8px 0}
-.dashboard{background:white;padding:15px;margin-top:20px;border-radius:10px}
-.customerBox{background:white;padding:20px;border-radius:10px;max-width:400px;margin:auto;margin-top:20px}
-</style>
-</head>
+.cartitem{border-bottom:1px solid #ddd;padding:6px 0}
 
-<body>
+.admin{margin-top:30px;background:white;padding:20px;border-radius:10px}
+input,textarea,select{padding:8px;margin:5px;width:100%}
 
-<header>
+/* PRODUCT MODAL */
+.modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.6);align-items:center;justify-content:center}
+.modal-content{background:white;width:90%;max-width:700px;padding:20px;border-radius:10px}
+.modal img{width:100%;max-height:350px;object-fit:cover;border-radius:8px}
+.review{border-top:1px solid #ddd;margin-top:8px;padding-top:6px;font-size:14px}
+
+@media(max-width:900px){
+.container{margin-right:0}
+.cart{position:relative;width:100%;height:auto;box-shadow:none}
+}
+</style></head><body><header>
 <h1>Tiprasa Traditional Dress Store</h1>
 <p>Authentic Tripura Tribal Clothing</p>
-</header>
-
-<div class="banner">
+</header><div class="banner">
 <img id="bannerImage" src="https://via.placeholder.com/1200x350?text=Tiprasa+Traditional+Dress">
-</div>
-
-<nav>
+</div><nav>
 <button onclick="filterCategory('all')">All</button>
 <button onclick="filterCategory('Rignai')">Rignai</button>
 <button onclick="filterCategory('Risa')">Risa</button>
 <button onclick="filterCategory('Takborok')">Takborok</button>
 <button onclick="filterCategory('Blouse')">Blouse</button>
 <button onclick="filterCategory('Duti')">Duti</button>
-</nav>
-
-<div class="container">
-
-<input id="search" class="search" placeholder="Search products..." onkeyup="searchProduct()">
-
-<div class="products" id="productList"></div>
-
-<div class="customerBox" id="customerLogin">
-<h3>Customer Login</h3>
-<input id="custUser" placeholder="Email">
-<input id="custPass" type="password" placeholder="Password">
-<button onclick="customerLogin()">Login</button>
-<button onclick="customerRegister()">Register</button>
-<p id="custStatus"></p>
-</div>
-
-<div class="login" id="loginBox">
-<h2>Admin Login</h2>
-<input id="adminUser" placeholder="Username">
-<input id="adminPass" type="password" placeholder="Password">
-<button onclick="login()">Login</button>
-</div>
-
-<div class="admin hidden" id="adminPanel">
-<h2>Admin Dashboard</h2>
-
-<h3>Banner Photo</h3>
-<input id="bannerInput" placeholder="Banner Image URL">
-<button onclick="setBanner()">Update Banner</button>
-
+</nav><div class="container"><input id="search" class="search" placeholder="Search products..." onkeyup="searchProduct()"><div class="products" id="productList"></div><div class="admin" id="adminPanel">
 <h3>Add / Edit Product</h3>
 <input id="name" placeholder="Product Name">
-<input id="price" type="number" placeholder="Product Price ₹">
-<input id="stock" type="number" placeholder="Stock Quantity">
+<input id="price" type="number" placeholder="Price">
 <input id="image" placeholder="Main Image URL">
-<input id="gallery" placeholder="More Image URLs (comma separated)">
+<input id="gallery" placeholder="Gallery images (comma separated)">
+<textarea id="description" placeholder="Product description"></textarea>
 <select id="category">
 <option>Rignai</option>
 <option>Risa</option>
@@ -104,103 +72,97 @@ input,select{padding:8px;margin:5px;width:100%}
 <option>Duti</option>
 </select>
 <button onclick="addProduct()">Save Product</button>
-
-<div class="dashboard">
-<h3>Sales Dashboard</h3>
-<p>Total Orders: <span id="totalOrders">0</span></p>
-<p>Total Sales ₹: <span id="totalSales">0</span></p>
-</div>
-
-</div>
-
-</div>
-
-<div class="cart" id="cartBox">
+</div></div><div class="cart">
 <h3>Cart</h3>
 <div id="cartItems"></div>
-<button onclick="checkout()" style="background:#4CAF50;color:white;width:100%">Checkout WhatsApp</button>
+<button onclick="checkout()" class="order">Checkout WhatsApp</button>
+</div><!-- PRODUCT DETAIL MODAL --><div class="modal" id="productModal">
+<div class="modal-content">
+<img id="modalImage">
+<h2 id="modalName"></h2>
+<p id="modalPrice"></p>
+<p id="modalDesc"></p><div class="gallery" id="modalGallery"></div><h4>Customer Reviews</h4>
+<div id="reviewList"></div><textarea id="reviewInput" placeholder="Write review"></textarea><button onclick="addReview()">Submit Review</button>
+
+<button onclick="buyNow()" class="order">Buy Now</button> <button onclick="closeModal()">Close</button>
+
 </div>
-
-<script>
-
-let editIndex=-1
+</div><script>
 
 let products=JSON.parse(localStorage.getItem('products'))||[]
 let cart=JSON.parse(localStorage.getItem('cart'))||[]
-let orders=JSON.parse(localStorage.getItem('orders'))||[]
-let customers=JSON.parse(localStorage.getItem('customers'))||[]
+
+let currentProduct=null
 
 function save(){
 localStorage.setItem("products",JSON.stringify(products))
 localStorage.setItem("cart",JSON.stringify(cart))
-localStorage.setItem("orders",JSON.stringify(orders))
-localStorage.setItem("customers",JSON.stringify(customers))
 }
 
 function display(list=products){
 let html=""
 
 list.forEach((p,i)=>{
-
-let galleryHTML=""
-if(p.gallery){
-p.gallery.forEach(img=>{
-galleryHTML+=`<img src="${img}" onclick="this.closest('.card').querySelector('.mainimg').src='${img}'">`
-})
-}
-
 html+=`<div class="card">
-<img class="mainimg" src="${p.image}">
+<img src="${p.image}" onclick="openProduct(${i})">
 <h3>${p.name}</h3>
 <p class="price">₹${p.price}</p>
-<p class="stock">Stock: ${p.stock||0}</p>
 
-<div class="gallery">${galleryHTML}</div>
-
-<button class="cartbtn" onclick="addCart(${i})">Add To Cart</button>
-<button class="order" onclick="orderProduct(${i})">Order WhatsApp</button>
-<button class="edit" onclick="editProduct(${i})">Edit</button>
-<button class="delete" onclick="deleteProduct(${i})">Delete</button>
-
+<button class="cartbtn" onclick="addCart(${i})">Add to Cart</button>
+<button class="order" onclick="orderProduct(${i})">Buy</button>
 </div>`
 })
 
 document.getElementById("productList").innerHTML=html
 }
 
-function addProduct(){
-
-let name=document.getElementById("name").value
-let price=document.getElementById("price").value
-let stock=document.getElementById("stock").value
-let image=document.getElementById("image").value
-let gallery=document.getElementById("gallery").value.split(",")
-let category=document.getElementById("category").value
-
-let product={name,price:Number(price),stock:Number(stock),image,gallery,category}
-
-if(editIndex===-1)products.push(product)
-else{products[editIndex]=product;editIndex=-1}
-
-save()
-display()
-}
-
-function editProduct(i){
+function openProduct(i){
 let p=products[i]
-name.value=p.name
-price.value=p.price
-stock.value=p.stock
-image.value=p.image
-gallery.value=(p.gallery||[]).join(",")
-category.value=p.category
-editIndex=i
+currentProduct=i
+
+modalImage.src=p.image
+modalName.innerText=p.name
+modalPrice.innerText="Price: ₹"+p.price
+modalDesc.innerText=p.description||""
+
+let ghtml=""
+if(p.gallery){
+p.gallery.forEach(img=>{
+ghtml+=`<img src="${img}" onclick="modalImage.src='${img}'">`
+})
+}
+modalGallery.innerHTML=ghtml
+
+let rhtml=""
+if(p.reviews){
+p.reviews.forEach(r=>{
+rhtml+=`<div class='review'>${r}</div>`
+})
+}
+reviewList.innerHTML=rhtml
+
+productModal.style.display="flex"
 }
 
-function deleteProduct(i){
-products.splice(i,1)
+function closeModal(){
+productModal.style.display="none"
+}
+
+function addReview(){
+let txt=reviewInput.value
+if(!txt)return
+
+if(!products[currentProduct].reviews)products[currentProduct].reviews=[]
+products[currentProduct].reviews.push(txt)
+
+reviewInput.value=""
 save()
-display()
+openProduct(currentProduct)
+}
+
+function buyNow(){
+addCart(currentProduct)
+checkout()
 }
 
 function addCart(i){
@@ -214,37 +176,24 @@ let html=""
 let total=0
 
 cart.forEach(c=>{
-html+=`<div class="cartitem">${c.name} ₹${c.price}</div>`
+html+=`<div class='cartitem'>${c.name} ₹${c.price}</div>`
 total+=Number(c.price)
 })
 
 html+=`<p><b>Total ₹${total}</b></p>`
-
-document.getElementById("cartItems").innerHTML=html
+cartItems.innerHTML=html
 }
 
 function checkout(){
-
 if(cart.length===0){alert("Cart empty");return}
 
 let total=cart.reduce((s,i)=>s+Number(i.price),0)
-
 let list=cart.map(i=>i.name).join(", ")
 
 let phone="9863653392"
+let msg=`Hello I want to order:\nItems: ${list}\nTotal ₹${total}`
 
-let message=`Hello I want to order:\nItems: ${list}\nTotal: ₹${total}`
-
-let url=`https://wa.me/${phone}?text=${encodeURIComponent(message)}`
-
-orders.push({items:list,total})
-cart=[]
-
-save()
-renderCart()
-updateDashboard()
-
-window.open(url)
+window.open(`https://wa.me/${phone}?text=${encodeURIComponent(msg)}`)
 }
 
 function orderProduct(i){
@@ -252,12 +201,18 @@ cart=[products[i]]
 checkout()
 }
 
-function updateDashboard(){
-let sales=orders.reduce((s,o)=>s+Number(o.total),0)
+function addProduct(){
+let name=nameInput.value
+let price=priceInput.value
+let image=imageInput.value
+let gallery=gallery.value.split(",")
+let description=description.value
+let category=category.value
 
-document.getElementById("totalOrders").innerText=orders.length
+products.push({name,price,image,gallery,description,category,reviews:[]})
 
-document.getElementById("totalSales").innerText=sales
+save()
+display()
 }
 
 function searchProduct(){
@@ -272,54 +227,14 @@ let f=products.filter(p=>p.category===c)
 display(f)
 }
 
-function setBanner(){
-let url=bannerInput.value
-localStorage.setItem("banner",url)
-bannerImage.src=url
-}
-
-function login(){
-if(adminUser.value==='admin' && adminPass.value==='1234'){
-loginBox.classList.add("hidden")
-adminPanel.classList.remove("hidden")
-}else alert("Wrong login")
-}
-
-function customerRegister(){
-let u=custUser.value
-let p=custPass.value
-
-customers.push({u,p})
-save()
-
-custStatus.innerText="Registered successfully"
-}
-
-function customerLogin(){
-let u=custUser.value
-let p=custPass.value
-
-let found=customers.find(c=>c.u===u && c.p===p)
-
-if(found){
-custStatus.innerText="Login successful"
-}else{
-custStatus.innerText="Wrong login"
-}
-}
-
-let savedBanner=localStorage.getItem("banner")
-if(savedBanner)bannerImage.src=savedBanner
-
 renderCart()
 display()
-updateDashboard()
 
-</script>
-
-<footer style="text-align:center;padding:20px;background:#111;color:white;margin-top:40px">
+</script><footer style="text-align:center;padding:20px;background:#111;color:white;margin-top:40px">
 <p>Website Design & Developed by <b>MATINDRA TRIPURA</b></p>
-</footer>
-
-</body>
+</footer></body>
 </html>
+
+
+
+
