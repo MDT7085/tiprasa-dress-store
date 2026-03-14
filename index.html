@@ -67,7 +67,11 @@ input,textarea,select{padding:8px;margin:5px;width:100%}
 <input id="adminPass" type="password" placeholder="Password">
 <button onclick="login()">Login</button>
 </div><!-- ADMIN PANEL --><div class="admin hidden" id="adminPanel">
-<h3>Admin Product Manager</h3><h4>Banner Image</h4>
+<h3>Admin Product Manager</h3><h4>Change Admin Password</h4>
+<input id="oldPass" type="password" placeholder="Current Password">
+<input id="newPass" type="password" placeholder="New Password">
+<button onclick="changePassword()">Change Password</button>
+<hr><h4>Banner Image</h4>
 <input id="bannerInput" placeholder="Banner Image URL">
 <button onclick="setBanner()">Update Banner</button><h4>Website Share Link</h4>
 <input id="siteLink" placeholder="Paste your website link here">
@@ -144,11 +148,35 @@ document.getElementById("productList").innerHTML=html
 }
 
 function login(){
-if(adminUser.value==='admin' && adminPass.value==='1234'){
+let savedPass = localStorage.getItem("adminPass") || "1234"
+
+if(adminUser.value==='admin' && adminPass.value===savedPass){
 adminLogin.style.display="none"
 adminPanel.classList.remove("hidden")
 isAdmin=true
 display()
+}else{
+alert("Wrong login")
+}
+}
+
+function changePassword(){
+let savedPass = localStorage.getItem("adminPass") || "1234"
+
+if(oldPass.value!==savedPass){
+alert("Current password incorrect")
+return
+}
+
+if(newPass.value.length<4){
+alert("Password must be at least 4 characters")
+return
+}
+
+localStorage.setItem("adminPass",newPass.value)
+alert("Password changed successfully")
+oldPass.value=""
+newPass.value=""
 }else{
 alert("Wrong login")
 }
