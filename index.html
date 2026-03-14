@@ -13,7 +13,7 @@ nav{background:#111;color:white;padding:10px;text-align:center}
 nav button{margin:5px;padding:8px 12px;border:none;border-radius:5px;cursor:pointer}
 .banner img{width:100%;max-height:350px;object-fit:cover}
 
-.container{padding:20px;margin-right:300px}
+.container{padding:20px}
 .search{width:100%;padding:10px;margin-bottom:20px;border-radius:6px;border:1px solid #ccc}
 
 .products{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px}
@@ -26,13 +26,9 @@ nav button{margin:5px;padding:8px 12px;border:none;border-radius:5px;cursor:poin
 
 .price{font-weight:bold}
 button{padding:8px;border:none;border-radius:6px;cursor:pointer}
-.cartbtn{background:#2196F3;color:white;width:100%;margin-top:6px}
 .order{background:#25D366;color:white;width:100%;margin-top:6px}
 .edit{background:#ff9800;color:white;margin-top:6px;width:100%}
 .delete{background:#d11a2a;color:white;margin-top:6px;width:100%}
-
-.cart{position:fixed;right:0;top:0;background:white;width:280px;height:100%;box-shadow:-2px 0 6px rgba(0,0,0,0.2);padding:15px;overflow:auto}
-.cartitem{border-bottom:1px solid #ddd;padding:6px 0}
 
 .admin{margin-top:30px;background:white;padding:20px;border-radius:10px}
 input,textarea,select{padding:8px;margin:5px;width:100%}
@@ -46,10 +42,8 @@ input,textarea,select{padding:8px;margin:5px;width:100%}
 .modal img{width:100%;max-height:350px;object-fit:cover;border-radius:8px}
 .review{border-top:1px solid #ddd;margin-top:8px;padding-top:6px;font-size:14px}
 
-@media(max-width:900px){
-.container{margin-right:0}
-.cart{position:relative;width:100%;height:auto;box-shadow:none}
-}
+.qrbox{margin-top:20px;text-align:center}
+
 </style>
 </head>
 
@@ -91,9 +85,26 @@ input,textarea,select{padding:8px;margin:5px;width:100%}
 <div class="admin hidden" id="adminPanel">
 <h3>Admin Product Manager</h3>
 
+<h4>Change Admin Password</h4>
+<input id="oldPass" type="password" placeholder="Current Password">
+<input id="newPass" type="password" placeholder="New Password">
+<button onclick="changePassword()">Change Password</button>
+<hr>
+
 <h4>Banner Image</h4>
 <input id="bannerInput" placeholder="Banner Image URL">
 <button onclick="setBanner()">Update Banner</button>
+
+<h4>Website Share Link</h4>
+<input id="siteLink" placeholder="Paste your website link here">
+<button onclick="generateQR()">Generate QR Code</button>
+
+<div class="qrbox">
+<img id="qrImage" width="150">
+<p>Scan to open shop</p>
+</div>
+
+<hr>
 
 <input id="name" placeholder="Product Name">
 <input id="price" type="number" placeholder="Price">
@@ -112,12 +123,6 @@ input,textarea,select{padding:8px;margin:5px;width:100%}
 
 </div>
 
-<div class="cart">
-<h3>Cart</h3>
-<div id="cartItems"></div>
-<button onclick="checkout()" class="order">Checkout WhatsApp</button>
-</div>
-
 <!-- PRODUCT MODAL -->
 <div class="modal" id="productModal">
 <div class="modal-content">
@@ -131,7 +136,7 @@ input,textarea,select{padding:8px;margin:5px;width:100%}
 <h4>Customer Reviews</h4>
 <div id="reviewList"></div>
 
-<textarea id="reviewInput" placeholder="Write review"></textarea>
+<textarea id="reviewInput" placeholder="Write your review here"></textarea>
 <button onclick="addReview()">Submit Review</button>
 
 <button onclick="buyNow()" class="order">Buy Now</button>
@@ -141,203 +146,231 @@ input,textarea,select{padding:8px;margin:5px;width:100%}
 
 <script>
 
-let products=JSON.parse(localStorage.getItem('products'))||[]
-let cart=JSON.parse(localStorage.getItem('cart'))||[]
+let products = JSON.parse(localStorage.getItem('products')) || [];
 
-let currentProduct=null
-let editIndex=-1
-let isAdmin=false
+let currentProduct = null;
+let editIndex = -1;
+let isAdmin = false;
 
 function save(){
-localStorage.setItem("products",JSON.stringify(products))
-localStorage.setItem("cart",JSON.stringify(cart))
+  localStorage.setItem("products", JSON.stringify(products));
 }
 
-function display(list=products){
-let html=""
+function display(list = products){
+  let html = "";
 
-list.forEach((p,i)=>{
+  list.forEach((p,i)=>{
 
-let adminButtons=""
-if(isAdmin){
-adminButtons=`<button class='edit' onclick='editProduct(${i})'>Edit</button>
-<button class='delete' onclick='deleteProduct(${i})'>Delete</button>`
-}
+    let adminButtons = "";
+    if(isAdmin){
+      adminButtons = `
+      <button class='edit' onclick='editProduct(${i})'>Edit</button>
+      <button class='delete' onclick='deleteProduct(${i})'>Delete</button>`;
+    }
 
-html+=`<div class="card">
-<img src="${p.image}" onclick="openProduct(${i})">
-<h3>${p.name}</h3>
-<p class="price">₹${p.price}</p>
+    html += `
+    <div class="card">
+      <img src="${p.image}" onclick="openProduct(${i})">
+      <h3>${p.name}</h3>
+      <p class="price">₹${p.price}</p>
 
-<button class="cartbtn" onclick="addCart(${i})">Add to Cart</button>
-<button class="order" onclick="orderProduct(${i})">Buy</button>
+      <button class="order" onclick="orderProduct(${i})">Order WhatsApp</button>
 
-${adminButtons}
+      ${adminButtons}
+    </div>`;
+  });
 
-</div>`
-})
-
-document.getElementById("productList").innerHTML=html
+  document.getElementById("productList").innerHTML = html;
 }
 
 function login(){
-if(adminUser.value==='admin' && adminPass.value==='1234'){
-adminLogin.style.display="none"
-adminPanel.classList.remove("hidden")
-isAdmin=true
-display()
-}else{
-alert("Wrong login")
+  let savedPass = localStorage.getItem("adminPass") || "1234";
+
+  if(adminUser.value === 'admin' && adminPass.value === savedPass){
+    adminLogin.style.display = "none";
+    adminPanel.classList.remove("hidden");
+    isAdmin = true;
+    display();
+  } else {
+    alert("Wrong login");
+  }
 }
+
+function changePassword(){
+  let savedPass = localStorage.getItem("adminPass") || "1234";
+
+  if(oldPass.value !== savedPass){
+    alert("Current password incorrect");
+    return;
+  }
+
+  if(newPass.value.length < 4){
+    alert("Password must be at least 4 characters");
+    return;
+  }
+
+  localStorage.setItem("adminPass", newPass.value);
+  alert("Password changed successfully");
+
+  oldPass.value = "";
+  newPass.value = "";
 }
 
 function addProduct(){
-let name=nameInput.value
-let price=priceInput.value
-let image=imageInput.value
-let gallery=gallery.value.split(",")
-let description=description.value
-let category=category.value
+  let name = document.getElementById("name").value;
+  let price = document.getElementById("price").value;
+  let image = document.getElementById("image").value;
+  let gallery = document.getElementById("gallery").value.split(",");
+  let description = document.getElementById("description").value;
+  let category = document.getElementById("category").value;
 
-let product={name,price,image,gallery,description,category,reviews:[]}
+  let product = {name, price, image, gallery, description, category, reviews:[]};
 
-if(editIndex==-1)products.push(product)
-else{products[editIndex]=product;editIndex=-1}
+  if(editIndex === -1) products.push(product);
+  else {
+    products[editIndex] = product;
+    editIndex = -1;
+  }
 
-save()
-display()
+  save();
+  display();
 }
 
 function editProduct(i){
-let p=products[i]
-name.value=p.name
-price.value=p.price
-image.value=p.image
-gallery.value=(p.gallery||[]).join(",")
-description.value=p.description
-category.value=p.category
-editIndex=i
+  let p = products[i];
+
+  document.getElementById("name").value = p.name;
+  document.getElementById("price").value = p.price;
+  document.getElementById("image").value = p.image;
+  document.getElementById("gallery").value = (p.gallery || []).join(",");
+  document.getElementById("description").value = p.description;
+  document.getElementById("category").value = p.category;
+
+  editIndex = i;
 }
 
 function deleteProduct(i){
-products.splice(i,1)
-save()
-display()
+  products.splice(i,1);
+  save();
+  display();
 }
 
 function openProduct(i){
-let p=products[i]
-currentProduct=i
+  let p = products[i];
+  currentProduct = i;
 
-modalImage.src=p.image
-modalName.innerText=p.name
-modalPrice.innerText="Price: ₹"+p.price
-modalDesc.innerText=p.description||""
+  modalImage.src = p.image;
+  modalName.innerText = p.name;
+  modalPrice.innerText = "Price: ₹" + p.price;
+  modalDesc.innerText = p.description || "";
 
-let ghtml=""
-if(p.gallery){
-p.gallery.forEach(img=>{
-ghtml+=`<img src='${img}' onclick="modalImage.src='${img}'">`
-})
-}
-modalGallery.innerHTML=ghtml
+  let ghtml = "";
+  if(p.gallery){
+    p.gallery.forEach(img => {
+      ghtml += `<img src='${img}' onclick="modalImage.src='${img}'">`;
+    });
+  }
 
-let rhtml=""
-if(p.reviews){
-p.reviews.forEach(r=>{
-rhtml+=`<div class='review'>${r}</div>`
-})
-}
-reviewList.innerHTML=rhtml
+  modalGallery.innerHTML = ghtml;
 
-productModal.style.display="flex"
+  let rhtml = "";
+  if(p.reviews){
+    p.reviews.forEach(r => {
+      rhtml += `<div class='review'>⭐ ${r}</div>`;
+    });
+  }
+
+  reviewList.innerHTML = rhtml;
+
+  productModal.style.display = "flex";
 }
 
 function closeModal(){
-productModal.style.display="none"
+  productModal.style.display = "none";
 }
 
 function addReview(){
-let txt=reviewInput.value
-if(!txt)return
+  let txt = reviewInput.value;
+  if(!txt) return;
 
-if(!products[currentProduct].reviews)products[currentProduct].reviews=[]
-products[currentProduct].reviews.push(txt)
+  if(!products[currentProduct].reviews) products[currentProduct].reviews = [];
 
-reviewInput.value=""
-save()
-openProduct(currentProduct)
+  products[currentProduct].reviews.push(txt);
+
+  reviewInput.value = "";
+
+  save();
+  openProduct(currentProduct);
 }
 
 function buyNow(){
-addCart(currentProduct)
-checkout()
-}
-
-function addCart(i){
-cart.push(products[i])
-save()
-renderCart()
-}
-
-function renderCart(){
-let html=""
-let total=0
-
-cart.forEach(c=>{
-html+=`<div class='cartitem'>${c.name} ₹${c.price}</div>`
-total+=Number(c.price)
-})
-
-html+=`<p><b>Total ₹${total}</b></p>`
-cartItems.innerHTML=html
-}
-
-function checkout(){
-if(cart.length===0){alert("Cart empty");return}
-
-let total=cart.reduce((s,i)=>s+Number(i.price),0)
-let list=cart.map(i=>i.name).join(", ")
-
-let phone="9863653392"
-let msg=`Hello I want to order:\nItems: ${list}\nTotal ₹${total}`
-
-window.open(`https://wa.me/${phone}?text=${encodeURIComponent(msg)}`)
+  orderProduct(currentProduct);
 }
 
 function orderProduct(i){
-cart=[products[i]]
-checkout()
+
+  let product = products[i];
+
+  // Ask customer details
+  let customerName = prompt("Enter your name:");
+  if(!customerName) return;
+
+  let customerPhone = prompt("Enter your phone number:");
+  if(!customerPhone) return;
+
+  let date = new Date().toLocaleString();
+
+  let phone = "9863653392";
+
+  let msg = `New Order from Website
+
+Customer Name: ${customerName}
+Customer Phone: ${customerPhone}
+Product: ${product.name}
+Price: ₹${product.price}
+Order Time: ${date}`;
+
+  window.open(`https://wa.me/${phone}?text=${encodeURIComponent(msg)}`);
+}
+\nPrice: ₹${product.price}`;
+
+  window.open(`https://wa.me/${phone}?text=${encodeURIComponent(msg)}`);
 }
 
 function setBanner(){
-let url=bannerInput.value
-bannerImage.src=url
-localStorage.setItem("banner",url)
+  let url = bannerInput.value;
+  bannerImage.src = url;
+  localStorage.setItem("banner", url);
+}
+
+function generateQR(){
+  let link = siteLink.value;
+  let qr = `https://chart.googleapis.com/chart?chs=200x200&cht=qr&chl=${encodeURIComponent(link)}`;
+  qrImage.src = qr;
 }
 
 function searchProduct(){
-let v=search.value.toLowerCase()
-let f=products.filter(p=>p.name.toLowerCase().includes(v))
-display(f)
+  let v = search.value.toLowerCase();
+  let f = products.filter(p => p.name.toLowerCase().includes(v));
+  display(f);
 }
 
 function filterCategory(c){
-if(c==='all'){display();return}
-let f=products.filter(p=>p.category===c)
-display(f)
+  if(c === 'all'){ display(); return; }
+  let f = products.filter(p => p.category === c);
+  display(f);
 }
 
-let savedBanner=localStorage.getItem("banner")
-if(savedBanner)bannerImage.src=savedBanner
+let savedBanner = localStorage.getItem("banner");
+if(savedBanner) bannerImage.src = savedBanner;
 
-renderCart()
-display()
+display();
 
 </script>
 
-<footer style="text-align:center;padding:20px;background:#111;color:white;margin-top:40px">
-<p>Website Design & Developed by <b>MATINDRA TRIPURA</b></p>
+<footer style="text-align:center;padding:25px;background:#111;color:white;margin-top:40px;font-size:16px">
+<p>Website Design & Development by <b>MATINDRA TRIPURA</b></p>
+<p style="font-size:13px;opacity:0.8">Tiprasa Traditional Dress Online Store</p>
 </footer>
 
 </body>
