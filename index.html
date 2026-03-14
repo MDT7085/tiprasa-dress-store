@@ -43,6 +43,8 @@ input,textarea,select{padding:8px;margin:5px;width:100%}
 .modal img{width:100%;max-height:350px;object-fit:cover;border-radius:8px}
 .review{border-top:1px solid #ddd;margin-top:8px;padding-top:6px;font-size:14px}
 
+.qrbox{margin-top:20px;text-align:center}
+
 @media(max-width:900px){
 .container{margin-right:0}
 .cart{position:relative;width:100%;height:auto;box-shadow:none}
@@ -67,7 +69,12 @@ input,textarea,select{padding:8px;margin:5px;width:100%}
 </div><!-- ADMIN PANEL --><div class="admin hidden" id="adminPanel">
 <h3>Admin Product Manager</h3><h4>Banner Image</h4>
 <input id="bannerInput" placeholder="Banner Image URL">
-<button onclick="setBanner()">Update Banner</button><input id="name" placeholder="Product Name">
+<button onclick="setBanner()">Update Banner</button><h4>Website Share Link</h4>
+<input id="siteLink" placeholder="Paste your website link here">
+<button onclick="generateQR()">Generate QR Code</button><div class="qrbox">
+<img id="qrImage" width="150">
+<p>Scan to open shop</p>
+</div><hr><input id="name" placeholder="Product Name">
 <input id="price" type="number" placeholder="Price">
 <input id="image" placeholder="Main Image URL">
 <input id="gallery" placeholder="Gallery images (comma separated)">
@@ -90,7 +97,7 @@ input,textarea,select{padding:8px;margin:5px;width:100%}
 <h2 id="modalName"></h2>
 <p id="modalPrice"></p>
 <p id="modalDesc"></p><div class="gallery" id="modalGallery"></div><h4>Customer Reviews</h4>
-<div id="reviewList"></div><textarea id="reviewInput" placeholder="Write review"></textarea><button onclick="addReview()">Submit Review</button>
+<div id="reviewList"></div><textarea id="reviewInput" placeholder="Write your review here"></textarea><button onclick="addReview()">Submit Review</button>
 
 <button onclick="buyNow()" class="order">Buy Now</button> <button onclick="closeModal()">Close</button>
 
@@ -201,7 +208,7 @@ modalGallery.innerHTML=ghtml
 let rhtml=""
 if(p.reviews){
 p.reviews.forEach(r=>{
-rhtml+=`<div class='review'>${r}</div>`
+rhtml+=`<div class='review'>⭐ ${r}</div>`
 })
 }
 reviewList.innerHTML=rhtml
@@ -270,6 +277,12 @@ function setBanner(){
 let url=bannerInput.value
 bannerImage.src=url
 localStorage.setItem("banner",url)
+}
+
+function generateQR(){
+let link=siteLink.value
+let qr=`https://chart.googleapis.com/chart?chs=200x200&cht=qr&chl=${encodeURIComponent(link)}`
+qrImage.src=qr
 }
 
 function searchProduct(){
