@@ -21,77 +21,70 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Poppins', sans-serif; background-color: var(--light); color: var(--secondary); scroll-behavior: smooth; }
 
-        /* --- Banner Section --- */
+        /* --- Header & Banner --- */
+        nav { background: white; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        .logo { font-family: 'Playfair Display', serif; font-weight: 700; color: var(--primary); font-size: 1.2rem; }
+        
         .hero { 
-            height: 45vh; 
+            height: 50vh; 
             background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1583391733956-3750e0ff4e8b?w=1200');
             background-size: cover; background-position: center;
             display: flex; flex-direction: column; justify-content: center; align-items: center;
-            color: white; text-align: center; padding: 20px;
+            color: white; text-align: center; padding: 20px; transition: 0.5s;
         }
-        .hero h1 { font-family: 'Playfair Display', serif; font-size: 3rem; }
 
-        /* --- Layout --- */
+        /* --- Main Layout --- */
         .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
         .controls { margin: -50px auto 40px; background: white; padding: 25px; border-radius: 15px; box-shadow: var(--shadow); position: relative; z-index: 10; text-align: center; }
-        .search-bar { width: 100%; padding: 12px; border: 2px solid #eee; border-radius: 10px; margin-bottom: 20px; font-size: 1rem; }
         .cat-btn { padding: 8px 18px; border: none; background: #f0f0f0; border-radius: 20px; cursor: pointer; margin: 5px; transition: 0.3s; }
         .cat-btn.active { background: var(--primary); color: white; }
 
-        /* --- Product Cards --- */
+        /* --- Products --- */
         .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 25px; }
-        .product-card { background: var(--white); border-radius: 15px; overflow: hidden; transition: 0.3s; box-shadow: 0 4px 10px rgba(0,0,0,0.05); position: relative; cursor: pointer; }
+        .product-card { background: var(--white); border-radius: 15px; overflow: hidden; transition: 0.3s; box-shadow: 0 4px 10px rgba(0,0,0,0.05); position: relative; }
         .img-container { height: 320px; overflow: hidden; }
         .img-container img { width: 100%; height: 100%; object-fit: cover; }
-        .product-info { padding: 15px; text-align: center; }
-        .price { color: var(--primary); font-weight: 700; font-size: 1.3rem; }
+        .price { color: var(--primary); font-weight: 700; font-size: 1.2rem; }
 
-        /* --- The Modal (Product Display Window) --- */
-        .modal { 
-            position: fixed; top:0; left:0; width:100%; height:100%; 
-            background: rgba(0,0,0,0.9); /* Darker background to focus on product */
-            display: none; justify-content: center; align-items: center; 
-            z-index: 2000; padding: 15px; overflow-y: auto;
-        }
-        .modal-content { 
-            background: white; width: 100%; max-width: 900px; border-radius: 20px; 
-            display: grid; grid-template-columns: 1fr 1fr; overflow: hidden; position: relative; 
-            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
-        }
-        .close-modal { 
-            position: absolute; top: 15px; right: 20px; font-size: 35px; 
-            cursor: pointer; z-index: 10; color: #333; background: white; 
-            width: 45px; height: 45px; display: flex; align-items: center; 
-            justify-content: center; border-radius: 50%; box-shadow: 0 2px 10px rgba(0,0,0,0.2);
-        }
+        /* --- Admin & Sections --- */
+        .admin-section { background: white; padding: 30px; border-radius: 15px; margin: 40px auto; display: none; border: 3px dashed var(--primary); }
+        .section-title { text-align: center; margin: 60px 0 30px; font-family: 'Playfair Display', serif; font-size: 2rem; }
+        .review-grid { display: flex; overflow-x: auto; gap: 20px; padding: 20px 0; }
+        .review-card { min-width: 300px; background: white; padding: 20px; border-radius: 10px; box-shadow: var(--shadow); border-left: 5px solid var(--primary); }
 
-        /* --- Buttons --- */
-        .btn-main { background: var(--secondary); color: white; border: none; padding: 14px; border-radius: 10px; cursor: pointer; width: 100%; font-weight: 600; margin-top: 10px; text-decoration: none; display: inline-block; text-align: center; }
+        /* --- Modals --- */
+        .modal { position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.85); display: none; justify-content: center; align-items: center; z-index: 2000; padding: 15px; }
+        .modal-content { background: white; width: 100%; max-width: 850px; border-radius: 20px; display: grid; grid-template-columns: 1fr 1fr; overflow: hidden; position: relative; }
+        .btn-main { background: var(--secondary); color: white; border: none; padding: 12px; border-radius: 8px; cursor: pointer; width: 100%; font-weight: 600; margin-top: 10px; text-decoration: none; display: inline-block; text-align: center; }
         .btn-wa { background: var(--success); }
         .btn-upi { background: var(--upi-blue); }
-        .btn-back { background: #eee; color: #333; margin-top: 15px; }
-        .btn-back:hover { background: #ddd; }
 
-        /* --- Admin --- */
-        .admin-section { background: white; padding: 30px; border-radius: 15px; margin: 40px auto; display: none; border: 3px dashed var(--primary); max-width: 1100px; }
-
+        input, select, textarea { width: 100%; padding: 10px; margin: 8px 0; border: 1px solid #ddd; border-radius: 8px; }
         footer { background: #1a1a1a; color: #fff; padding: 60px 20px; text-align: center; margin-top: 80px; }
 
-        @media (max-width: 768px) { .modal-content { grid-template-columns: 1fr; } .img-container { height: 250px; } }
+        @media (max-width: 768px) { .modal-content { grid-template-columns: 1fr; max-height: 90vh; overflow-y: auto; } }
     </style>
 </head>
 <body>
 
+<nav>
+    <div class="logo">TRIPURA VASTRA</div>
+    <div id="userAuth">
+        <button onclick="showAuth()" style="border:none; background:none; cursor:pointer; font-size: 1.2rem; color:var(--secondary);">
+            <i class="fas fa-user-circle"></i> <span id="userStatus" style="font-size: 0.9rem;">Login</span>
+        </button>
+    </div>
+</nav>
+
 <section class="hero" id="heroBanner">
-    <h1>Tripura Vastra</h1>
-    <p>(Tiprasa Kanmung-Chumung)</p>
+    <h1 id="heroTitle">Tripura Vastra</h1>
+    <p id="heroSub">(Tiprasa Kanmung-Chumung)</p>
 </section>
 
 <div class="container">
     <div class="controls">
-        <input type="text" id="searchInput" class="search-bar" placeholder="Search products...">
         <div class="categories" id="categoryFilters">
-            <button class="cat-btn active" data-cat="all">All</button>
+            <button class="cat-btn active" data-cat="all">All Items</button>
             <button class="cat-btn" data-cat="Tripura Rignai">Tripura Rignai</button>
             <button class="cat-btn" data-cat="Debbarma Rignai">Debbarma Rignai</button>
             <button class="cat-btn" data-cat="Reang Rignai">Reang Rignai</button>
@@ -99,51 +92,84 @@
         </div>
     </div>
 
+    <div id="adminPanel" class="admin-section">
+        <h2 style="text-align:center; margin-bottom:20px;">Owner Dashboard</h2>
+        <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap:20px;">
+            <div style="background:#fefefe; padding:15px; border-radius:10px;">
+                <h3>Add Product</h3>
+                <form id="productForm">
+                    <input type="hidden" id="editId">
+                    <input type="text" id="pName" placeholder="Name" required>
+                    <input type="number" id="pPrice" placeholder="Price" required>
+                    <select id="pCat">
+                        <option value="Tripura Rignai">Tripura Rignai</option>
+                        <option value="Debbarma Rignai">Debbarma Rignai</option>
+                        <option value="Reang Rignai">Reang Rignai</option>
+                        <option value="Jamatia Rignai">Jamatia Rignai</option>
+                    </select>
+                    <input type="text" id="pImg" placeholder="Image URL" required>
+                    <button type="submit" class="btn-main" style="background:var(--primary)">Save</button>
+                </form>
+            </div>
+            <div style="background:#fefefe; padding:15px; border-radius:10px;">
+                <h3>Shop Branding</h3>
+                <label>Banner Image URL:</label>
+                <input type="text" id="bannerInp" placeholder="Paste Image Link">
+                <button onclick="updateBranding()" class="btn-main">Update Banner</button>
+                <hr style="margin:15px 0;">
+                <h3>Add Review</h3>
+                <input type="text" id="revName" placeholder="Customer Name">
+                <textarea id="revText" placeholder="Review Content"></textarea>
+                <button onclick="addReview()" class="btn-main" style="background:var(--success)">Add Review</button>
+            </div>
+        </div>
+        <button onclick="logout()" class="btn-main" style="background:#888; margin-top:20px;">Logout</button>
+    </div>
+
     <div id="productGrid" class="product-grid"></div>
 
-    <div id="adminPanel" class="admin-section">
-        <h2 style="text-align:center; color:var(--primary);">Owner Dashboard</h2>
-        <form id="productForm" style="max-width:500px; margin: 0 auto;">
-            <input type="hidden" id="editId">
-            <input type="text" id="pName" placeholder="Product Name" required>
-            <input type="number" id="pPrice" placeholder="Price (₹)" required>
-            <select id="pCat">
-                <option value="Tripura Rignai">Tripura Rignai</option>
-                <option value="Debbarma Rignai">Debbarma Rignai</option>
-                <option value="Reang Rignai">Reang Rignai</option>
-                <option value="Jamatia Rignai">Jamatia Rignai</option>
-            </select>
-            <textarea id="pDesc" placeholder="Description"></textarea>
-            <input type="text" id="pImg" placeholder="Image URL Link" required>
-            <button type="submit" class="btn-main" style="background:var(--primary)">Save Product</button>
-            <button type="button" onclick="hideAdmin()" class="btn-main" style="background:#888;">Cancel</button>
-        </form>
+    <h2 class="section-title">Customer Feedback</h2>
+    <div class="review-grid" id="reviewGrid"></div>
+</div>
+
+<div id="authModal" class="modal">
+    <div class="modal-content" style="grid-template-columns: 1fr; max-width: 400px; padding: 30px;">
+        <span class="close-modal" onclick="closeModal('authModal')">&times;</span>
+        <div id="loginStep1">
+            <h3>Login / Register</h3>
+            <p style="font-size: 0.8rem; margin-bottom: 10px;">Enter your mobile to receive OTP</p>
+            <input type="number" id="userMobile" placeholder="Phone Number">
+            <button class="btn-main" style="background:var(--primary)" onclick="sendOTP()">Send OTP</button>
+        </div>
+        <div id="loginStep2" style="display:none;">
+            <h3>Verify OTP</h3>
+            <p>Sent to: <b id="displayNum"></b></p>
+            <input type="number" id="otpInp" placeholder="Enter 4-digit OTP (Try 1234)">
+            <button class="btn-main" style="background:var(--success)" onclick="verifyOTP()">Verify & Login</button>
+        </div>
     </div>
 </div>
 
-<div id="detailsModal" class="modal" onclick="closeModalOnOutsideClick(event)">
-    <div class="modal-content" onclick="event.stopPropagation()">
-        <span class="close-modal" onclick="closeDetails()">&times;</span>
+<div id="detailsModal" class="modal">
+    <div class="modal-content">
+        <span class="close-modal" onclick="closeModal('detailsModal')">&times;</span>
         <img id="detImg" src="" style="width:100%; height:100%; object-fit:cover;">
-        <div style="padding:30px;">
+        <div style="padding:25px;">
             <h2 id="detName"></h2>
-            <p id="detPrice" class="price" style="font-size: 1.8rem; margin: 10px 0;"></p>
-            <p id="detDesc" style="color:#666; margin-bottom: 20px;"></p>
-            
-            <a href="#" id="upiLink" class="btn-main btn-upi"><i class="fas fa-wallet"></i> Pay with UPI</a>
-            <a href="#" id="waLink" target="_blank" class="btn-main btn-wa"><i class="fab fa-whatsapp"></i> WhatsApp Owner</a>
-            
-            <button class="btn-main btn-back" onclick="closeDetails()">
-                <i class="fas fa-arrow-left"></i> Back to Shopping
-            </button>
+            <p id="detPrice" class="price" style="font-size: 1.5rem;"></p>
+            <a href="#" id="upiLink" class="btn-main btn-upi">Pay with UPI</a>
+            <a href="#" id="waLink" target="_blank" class="btn-main btn-wa">WhatsApp Owner</a>
+            <button class="btn-main" style="background:#eee; color:#333;" onclick="closeModal('detailsModal')">Back</button>
         </div>
     </div>
 </div>
 
 <footer>
     <p><b>Tripura Vastra (Tiprasa Kanmung-Chumung)</b></p>
-    <p>Owner: Matindra Tripura | 9863653392</p>
-    <p style="margin-top:20px; opacity:0.3; font-size: 0.6rem; cursor:pointer;" onclick="adminLogin()">Owner Login</p>
+    <div style="margin-top:20px; font-size:0.75rem; color:#888; border-top:1px solid #333; padding-top:15px;">
+        DESIGNED BY <b>MATINDRA TRIPURA</b>
+    </div>
+    <p style="margin-top:20px; font-size:0.6rem; opacity:0.3; cursor:pointer;" onclick="adminLogin()">Owner Login</p>
 </footer>
 
 <script>
@@ -151,96 +177,81 @@
     const OWNER_UPI = "matindratripura911-2@okicici";
     const ADMIN_PASS = "admin";
 
-    let products = JSON.parse(localStorage.getItem('tv_final_db')) || [
-        { id: 1, name: 'Premium Reang Rignai', cat: 'Reang Rignai', price: '3200', desc: 'Handcrafted traditional attire.', img: 'https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=500' }
-    ];
+    let products = JSON.parse(localStorage.getItem('tv_prods')) || [];
+    let branding = JSON.parse(localStorage.getItem('tv_brand')) || { banner: '' };
+    let reviews = JSON.parse(localStorage.getItem('tv_revs')) || [{name: "Suman", text: "Quality is great!"}];
     let isLogged = false;
 
-    function render(cat = 'all') {
+    function render() {
         const grid = document.getElementById('productGrid');
         grid.innerHTML = '';
-        products.filter(p => cat === 'all' || p.cat === cat).forEach(p => {
+        products.forEach(p => {
             grid.innerHTML += `
-                <div class="product-card" onclick="viewDetails(${p.id})">
-                    ${isLogged ? `<div style="position:absolute;top:5px;right:5px;z-index:10;">
-                        <button onclick="event.stopPropagation(); editProduct(${p.id})" style="background:orange;color:white;border:none;padding:5px;border-radius:5px;">Edit</button>
-                        <button onclick="event.stopPropagation(); deleteProduct(${p.id})" style="background:red;color:white;border:none;padding:5px;border-radius:5px;">X</button>
-                    </div>` : ''}
-                    <div class="img-container"><img src="${p.img}"></div>
+                <div class="product-card">
+                    ${isLogged ? `<div style="position:absolute; top:5px; right:5px;"><button onclick="editProduct(${p.id})">Edit</button></div>` : ''}
+                    <div class="img-container" onclick="viewDetails(${p.id})"><img src="${p.img}"></div>
                     <div class="product-info">
                         <h3>${p.name}</h3>
                         <p class="price">₹${p.price}</p>
-                        <button class="btn-main">View Details</button>
                     </div>
                 </div>`;
         });
+        const rGrid = document.getElementById('reviewGrid');
+        rGrid.innerHTML = '';
+        reviews.forEach(r => rGrid.innerHTML += `<div class="review-card"><h4>${r.name}</h4><p>${r.text}</p></div>`);
+        if(branding.banner) document.getElementById('heroBanner').style.backgroundImage = `linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('${branding.banner}')`;
     }
 
+    // AUTH LOGIC
+    function showAuth() { document.getElementById('authModal').style.display = 'flex'; }
+    function sendOTP() {
+        const num = document.getElementById('userMobile').value;
+        if(num.length < 10) return alert("Enter valid number");
+        document.getElementById('displayNum').innerText = num;
+        document.getElementById('loginStep1').style.display = 'none';
+        document.getElementById('loginStep2').style.display = 'block';
+    }
+    function verifyOTP() {
+        if(document.getElementById('otpInp').value === "1234") {
+            document.getElementById('userStatus').innerText = "Account: " + document.getElementById('userMobile').value;
+            closeModal('authModal');
+            alert("Logged in successfully!");
+        } else { alert("Wrong OTP. Try 1234"); }
+    }
+
+    // BRANDING
+    function updateBranding() {
+        branding.banner = document.getElementById('bannerInp').value;
+        localStorage.setItem('tv_brand', JSON.stringify(branding));
+        render();
+    }
+    function addReview() {
+        reviews.push({ name: document.getElementById('revName').value, text: document.getElementById('revText').value });
+        localStorage.setItem('tv_revs', JSON.stringify(reviews));
+        render();
+    }
+
+    // PRODUCT LOGIC
     function viewDetails(id) {
         const p = products.find(prod => prod.id === id);
         document.getElementById('detImg').src = p.img;
         document.getElementById('detName').innerText = p.name;
         document.getElementById('detPrice').innerText = "₹" + p.price;
-        document.getElementById('detDesc').innerText = p.desc || "Traditional craft from Tripura.";
-        
-        document.getElementById('waLink').href = `https://wa.me/${OWNER_MOBILE}?text=Hello, I want to buy ${p.name}`;
+        document.getElementById('waLink').href = `https://wa.me/${OWNER_MOBILE}?text=Interested in ${p.name}`;
         document.getElementById('upiLink').href = `upi://pay?pa=${OWNER_UPI}&pn=TripuraVastra&am=${p.price}&cu=INR`;
-        
         document.getElementById('detailsModal').style.display = 'flex';
-        document.body.style.overflow = 'hidden'; // Stop background scrolling
     }
 
-    function closeDetails() {
-        document.getElementById('detailsModal').style.display = 'none';
-        document.body.style.overflow = 'auto'; // Re-enable scrolling
-    }
-
-    function closeModalOnOutsideClick(event) {
-        if (event.target.id === "detailsModal") {
-            closeDetails();
-        }
-    }
-
-    // --- Admin Logic ---
     document.getElementById('productForm').onsubmit = (e) => {
         e.preventDefault();
-        const id = document.getElementById('editId').value;
-        const data = {
-            id: id ? parseInt(id) : Date.now(),
-            name: document.getElementById('pName').value,
-            cat: document.getElementById('pCat').value,
-            price: document.getElementById('pPrice').value,
-            desc: document.getElementById('pDesc').value,
-            img: document.getElementById('pImg').value
-        };
-        if(id) products[products.findIndex(p => p.id == id)] = data;
-        else products.push(data);
-        localStorage.setItem('tv_final_db', JSON.stringify(products));
-        render(); hideAdmin();
+        const data = { id: Date.now(), name: document.getElementById('pName').value, price: document.getElementById('pPrice').value, cat: document.getElementById('pCat').value, img: document.getElementById('pImg').value };
+        products.push(data);
+        localStorage.setItem('tv_prods', JSON.stringify(products));
+        render(); e.target.reset();
     };
 
-    function deleteProduct(id) { if(confirm('Delete?')) { products = products.filter(p => p.id !== id); localStorage.setItem('tv_final_db', JSON.stringify(products)); render(); } }
-    function editProduct(id) {
-        const p = products.find(prod => prod.id === id);
-        document.getElementById('editId').value = p.id;
-        document.getElementById('pName').value = p.name;
-        document.getElementById('pPrice').value = p.price;
-        document.getElementById('pImg').value = p.img;
-        document.getElementById('adminPanel').style.display = 'block';
-        document.getElementById('adminPanel').scrollIntoView();
-    }
-
-    function adminLogin() { if(prompt("Password:") === ADMIN_PASS) { isLogged = true; document.getElementById('adminPanel').style.display = 'block'; render(); } }
-    function hideAdmin() { document.getElementById('adminPanel').style.display = 'none'; document.getElementById('productForm').reset(); }
-
-    document.getElementById('categoryFilters').onclick = (e) => {
-        if(e.target.classList.contains('cat-btn')) {
-            document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
-            e.target.classList.add('active');
-            render(e.target.dataset.cat);
-        }
-    };
-
+    function adminLogin() { if(prompt("Pass:") === ADMIN_PASS) { isLogged = true; document.getElementById('adminPanel').style.display = 'block'; render(); } }
+    function closeModal(id) { document.getElementById(id).style.display = 'none'; }
     render();
 </script>
 </body>
