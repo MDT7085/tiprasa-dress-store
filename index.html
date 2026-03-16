@@ -21,10 +21,10 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Poppins', sans-serif; background-color: var(--light); color: var(--secondary); scroll-behavior: smooth; }
 
-        /* --- Banner / Hero Section --- */
+        /* --- Clean Banner Section --- */
         .hero { 
-            height: 60vh; 
-            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1583391733956-3750e0ff4e8b?w=1200');
+            height: 50vh; 
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1583391733956-3750e0ff4e8b?w=1200');
             background-size: cover;
             background-position: center;
             display: flex;
@@ -34,12 +34,12 @@
             color: white;
             text-align: center;
             padding: 20px;
-            transition: 0.5s;
+            transition: background 0.5s ease;
         }
-        .hero h1 { font-family: 'Playfair Display', serif; font-size: 3rem; }
-        .hero p { font-size: 1.2rem; margin-top: 10px; }
+        .hero h1 { font-family: 'Playfair Display', serif; font-size: 3.5rem; text-shadow: 2px 2px 10px rgba(0,0,0,0.5); }
+        .hero p { font-size: 1.2rem; margin-top: 10px; font-weight: 300; }
 
-        /* --- Admin Panel --- */
+        /* --- Admin Section --- */
         .admin-section { background: white; padding: 30px; border-radius: 15px; margin: 40px auto; display: none; border: 3px dashed var(--primary); max-width: 1100px; }
         .admin-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
         .admin-box { background: #fff5f5; padding: 20px; border-radius: 10px; border: 1px solid #ffebeb; }
@@ -48,33 +48,37 @@
         .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
         .controls { margin: -50px auto 40px; background: white; padding: 25px; border-radius: 15px; box-shadow: var(--shadow); position: relative; z-index: 10; text-align: center; }
         .search-bar { width: 100%; padding: 12px; border: 2px solid #eee; border-radius: 10px; margin-bottom: 20px; font-size: 1rem; }
-        .cat-btn { padding: 8px 18px; border: none; background: #f0f0f0; border-radius: 20px; cursor: pointer; transition: 0.3s; margin: 5px; }
+        .cat-btn { padding: 8px 18px; border: none; background: #f0f0f0; border-radius: 20px; cursor: pointer; transition: 0.3s; margin: 5px; font-family: inherit; }
         .cat-btn.active { background: var(--primary); color: white; }
 
-        /* --- Products --- */
+        /* --- Product Grid --- */
         .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 25px; }
         .product-card { background: var(--white); border-radius: 15px; overflow: hidden; transition: 0.3s; box-shadow: 0 4px 10px rgba(0,0,0,0.05); position: relative; }
+        .product-card:hover { transform: translateY(-10px); }
         .img-container { height: 320px; overflow: hidden; }
-        .img-container img { width: 100%; height: 100%; object-fit: cover; }
-        .price { color: var(--primary); font-weight: 700; font-size: 1.2rem; }
+        .img-container img { width: 100%; height: 100%; object-fit: cover; transition: 0.5s; }
+        .product-card:hover img { transform: scale(1.05); }
+        .price { color: var(--primary); font-weight: 700; font-size: 1.3rem; }
 
         /* --- Video & Reviews --- */
-        .section-title { text-align: center; margin: 40px 0 20px; font-family: 'Playfair Display', serif; font-size: 2rem; }
-        .video-container { width: 100%; max-width: 800px; margin: 0 auto; aspect-ratio: 16/9; background: #000; border-radius: 15px; overflow: hidden; }
-        .review-grid { display: flex; overflow-x: auto; gap: 20px; padding: 20px 0; }
-        .review-card { min-width: 300px; background: white; padding: 20px; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); border-left: 5px solid var(--primary); }
+        .section-title { text-align: center; margin: 60px 0 30px; font-family: 'Playfair Display', serif; font-size: 2.2rem; }
+        .video-container { width: 100%; max-width: 850px; margin: 0 auto; aspect-ratio: 16/9; background: #000; border-radius: 20px; overflow: hidden; box-shadow: var(--shadow); }
+        .review-grid { display: flex; overflow-x: auto; gap: 20px; padding: 20px 0; scrollbar-width: none; }
+        .review-card { min-width: 320px; background: white; padding: 25px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border-top: 4px solid var(--primary); }
 
         /* --- Modals --- */
         .modal { position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.85); display: none; justify-content: center; align-items: center; z-index: 1000; padding: 15px; }
-        .modal-content { background: white; width: 100%; max-width: 850px; border-radius: 15px; display: grid; grid-template-columns: 1fr 1fr; overflow: hidden; position: relative; }
-        .btn-main { background: var(--secondary); color: white; border: none; padding: 12px; border-radius: 8px; cursor: pointer; width: 100%; font-weight: 600; margin-top: 10px; text-decoration: none; display: inline-block; text-align: center; }
+        .modal-content { background: white; width: 100%; max-width: 900px; border-radius: 20px; display: grid; grid-template-columns: 1fr 1fr; overflow: hidden; position: relative; }
+        .btn-main { background: var(--secondary); color: white; border: none; padding: 14px; border-radius: 10px; cursor: pointer; width: 100%; font-weight: 600; margin-top: 10px; text-decoration: none; display: inline-block; text-align: center; transition: 0.3s; }
+        .btn-main:hover { opacity: 0.9; transform: translateY(-2px); }
         .btn-wa { background: var(--success); }
         .btn-upi { background: var(--upi-blue); }
 
-        footer { background: #1a1a1a; color: #fff; padding: 40px 20px; text-align: center; margin-top: 60px; }
-        input, select, textarea { width: 100%; padding: 10px; margin: 8px 0; border: 1px solid #ddd; border-radius: 8px; }
+        footer { background: #1a1a1a; color: #fff; padding: 60px 20px; text-align: center; margin-top: 80px; }
+        input, select, textarea { width: 100%; padding: 12px; margin: 8px 0; border: 1px solid #ddd; border-radius: 10px; outline: none; }
+        input:focus { border-color: var(--primary); }
 
-        @media (max-width: 768px) { .modal-content { grid-template-columns: 1fr; max-height: 90vh; overflow-y: auto; } .hero h1 { font-size: 2rem; } }
+        @media (max-width: 768px) { .modal-content { grid-template-columns: 1fr; max-height: 90vh; overflow-y: auto; } .hero h1 { font-size: 2.2rem; } .hero { height: 40vh; } }
     </style>
 </head>
 <body>
@@ -86,9 +90,9 @@
 
 <div class="container">
     <div class="controls">
-        <input type="text" id="searchInput" class="search-bar" placeholder="Search for products...">
+        <input type="text" id="searchInput" class="search-bar" placeholder="Search for your favorite Rignai...">
         <div class="categories" id="categoryFilters">
-            <button class="cat-btn active" data-cat="all">All</button>
+            <button class="cat-btn active" data-cat="all">All Items</button>
             <button class="cat-btn" data-cat="Tripura Rignai">Tripura Rignai</button>
             <button class="cat-btn" data-cat="Debbarma Rignai">Debbarma Rignai</button>
             <button class="cat-btn" data-cat="Reang Rignai">Reang Rignai</button>
@@ -97,10 +101,10 @@
     </div>
 
     <div id="adminPanel" class="admin-section">
-        <h2 style="color:var(--primary); margin-bottom: 20px;">Owner Dashboard</h2>
+        <h2 style="color:var(--primary); margin-bottom: 25px; text-align: center;">Owner Dashboard</h2>
         <div class="admin-grid">
             <div class="admin-box">
-                <h3>1. Manage Products</h3>
+                <h3>1. Products</h3>
                 <form id="productForm">
                     <input type="hidden" id="editId">
                     <input type="text" id="pName" placeholder="Product Name" required>
@@ -112,63 +116,65 @@
                     </select>
                     <input type="number" id="pPrice" placeholder="Price (₹)" required>
                     <textarea id="pDesc" placeholder="Description"></textarea>
-                    <input type="text" id="pImg" placeholder="Product Image URL" required>
+                    <input type="text" id="pImg" placeholder="Image URL (Link)" required>
                     <button type="submit" class="btn-main" style="background:var(--primary)">Save Product</button>
                 </form>
             </div>
 
             <div class="admin-box">
                 <h3>2. Shop Branding</h3>
-                <label>Banner Image URL:</label>
-                <input type="text" id="bannerInp" placeholder="Banner Image URL">
-                <label>YouTube Video Link:</label>
-                <input type="text" id="videoInp" placeholder="YouTube URL (e.g. https://www.youtube.com/embed/...)">
-                <button onclick="updateBranding()" class="btn-main" style="background:var(--secondary)">Update Branding</button>
+                <label>Change Banner Image:</label>
+                <input type="text" id="bannerInp" placeholder="Paste New Image URL here">
+                <label>Video Showcase (YouTube Link):</label>
+                <input type="text" id="videoInp" placeholder="YouTube Embed Link">
+                <button onclick="updateBranding()" class="btn-main" style="background:var(--secondary)">Apply Changes</button>
             </div>
 
             <div class="admin-box">
-                <h3>3. Customer Reviews</h3>
+                <h3>3. Add Testimonial</h3>
                 <input type="text" id="revName" placeholder="Customer Name">
-                <textarea id="revText" placeholder="Review Content"></textarea>
-                <button onclick="addReview()" class="btn-main" style="background:var(--success)">Post Review</button>
+                <textarea id="revText" placeholder="What did they say?"></textarea>
+                <button onclick="addReview()" class="btn-main" style="background:var(--success)">Add Review</button>
             </div>
         </div>
-        <button onclick="logout()" class="btn-main" style="background:#888; margin-top: 20px;">Lock Dashboard</button>
+        <button onclick="logout()" class="btn-main" style="background:#666; width:auto; padding:10px 40px; margin: 20px auto; display:block;">Exit Admin Mode</button>
     </div>
 
     <div id="productGrid" class="product-grid"></div>
 
     <h2 class="section-title">Our Craftsmanship</h2>
     <div class="video-container" id="videoPlayer">
-        <p style="color:white; text-align:center; padding-top: 20%;">(Add a YouTube link in the admin panel to show video)</p>
+        <div style="color:white; text-align:center; padding-top: 20%;">
+            <i class="fas fa-play-circle" style="font-size: 3rem; opacity: 0.5;"></i>
+            <p>Video will appear here once added in Admin Panel</p>
+        </div>
     </div>
 
-    <h2 class="section-title">Customer Feedback</h2>
-    <div class="review-grid" id="reviewGrid">
-        </div>
+    <h2 class="section-title">What Our Customers Say</h2>
+    <div class="review-grid" id="reviewGrid"></div>
 </div>
 
 <div id="detailsModal" class="modal">
     <div class="modal-content">
         <span class="close-modal" onclick="closeModal('detailsModal')">&times;</span>
         <img id="detImg" src="" style="width:100%; height:100%; object-fit:cover;">
-        <div style="padding:25px;">
-            <h2 id="detName"></h2>
-            <p id="detPrice" class="price"></p>
-            <p id="detDesc" style="margin:12px 0; color:#555;"></p>
-            <a href="#" id="upiLink" class="btn-main btn-upi"><i class="fas fa-wallet"></i> Pay with UPI</a>
-            <a href="#" id="waLink" target="_blank" class="btn-main btn-wa"><i class="fab fa-whatsapp"></i> WhatsApp Owner</a>
+        <div style="padding:35px;">
+            <h2 id="detName" style="font-family:'Playfair Display', serif; font-size: 1.8rem;"></h2>
+            <p id="detPrice" class="price" style="font-size: 1.5rem; margin: 10px 0;"></p>
+            <p id="detDesc" style="margin:20px 0; color:#666; line-height: 1.7;"></p>
+            <a href="#" id="upiLink" class="btn-main btn-upi"><i class="fas fa-mobile-alt"></i> Buy via UPI (GPay/Paytm)</a>
+            <a href="#" id="waLink" target="_blank" class="btn-main btn-wa"><i class="fab fa-whatsapp"></i> Chat on WhatsApp</a>
         </div>
     </div>
 </div>
 
 <footer>
-    <p><b>Tripura Vastra (Tiprasa Kanmung-Chumung)</b></p>
-    <p>Agartala, Tripura | Contact: 9863653392</p>
-    <div style="margin-top:15px; font-size:0.75rem; color:#888; border-top:1px solid #333; padding-top:15px;">
-        DESIGNED BY <b>MATINDRA TRIPURA</b>
+    <p style="font-size: 1.2rem;"><b>Tripura Vastra (Tiprasa Kanmung-Chumung)</b></p>
+    <p>9863653392 | matindratripura911-2@okicici</p>
+    <div style="margin-top:30px; font-size:0.8rem; color:#666; border-top:1px solid #333; padding-top:20px;">
+        WEBSITE DESIGN AND DEVELOP BY <b>MATINDRA TRIPURA</b>
     </div>
-    <p style="margin-top:20px; font-size:0.6rem; opacity:0.3; cursor:pointer;" onclick="adminLogin()">Owner Login</p>
+    <p style="margin-top:25px; font-size:0.6rem; opacity:0.2; cursor:pointer;" onclick="adminLogin()">Owner Login</p>
 </footer>
 
 <script>
@@ -176,54 +182,59 @@
     const OWNER_UPI = "matindratripura911-2@okicici";
     const ADMIN_PASS = "admin";
 
-    // Load Data
+    // Load LocalStorage Data
     let products = JSON.parse(localStorage.getItem('tv_products')) || [];
     let branding = JSON.parse(localStorage.getItem('tv_branding')) || { banner: '', video: '' };
     let reviews = JSON.parse(localStorage.getItem('tv_reviews')) || [
-        { name: "Suman Debbarma", text: "Excellent quality Rignai. The fabric is very comfortable." }
+        { name: "Anita Debbarma", text: "The Jamatia Rignai I bought is beautiful. Very high quality work!" }
     ];
     let isLogged = false;
 
-    // --- Core Functions ---
     function render() {
-        // Render Products
+        // Products
         const grid = document.getElementById('productGrid');
         grid.innerHTML = '';
         products.forEach(p => {
             grid.innerHTML += `
                 <div class="product-card">
-                    ${isLogged ? `<div style="position:absolute; top:5px; right:5px;">
-                        <button onclick="editProduct(${p.id})" style="background:orange; color:white; border:none; padding:5px; border-radius:3px; cursor:pointer;">Edit</button>
-                        <button onclick="deleteProduct(${p.id})" style="background:red; color:white; border:none; padding:5px; border-radius:3px; cursor:pointer;">X</button>
+                    ${isLogged ? `<div style="position:absolute; top:10px; right:10px; z-index:5;">
+                        <button onclick="editProduct(${p.id})" style="background:orange; color:white; border:none; padding:5px 10px; border-radius:5px; cursor:pointer;">Edit</button>
+                        <button onclick="deleteProduct(${p.id})" style="background:red; color:white; border:none; padding:5px 10px; border-radius:5px; cursor:pointer; margin-left:5px;">X</button>
                     </div>` : ''}
-                    <div class="img-container"><img src="${p.img}"></div>
+                    <div class="img-container"><img src="${p.img}" loading="lazy"></div>
                     <div class="product-info">
                         <h3>${p.name}</h3>
                         <p class="price">₹${p.price}</p>
-                        <button class="btn-main" onclick="viewDetails(${p.id})">Details</button>
+                        <button class="btn-main" onclick="viewDetails(${p.id})">View Product</button>
                     </div>
                 </div>`;
         });
 
-        // Render Reviews
+        // Reviews
         const rGrid = document.getElementById('reviewGrid');
         rGrid.innerHTML = '';
         reviews.forEach(r => {
-            rGrid.innerHTML += `<div class="review-card"><h4>${r.name}</h4><p>"${r.text}"</p></div>`;
+            rGrid.innerHTML += `<div class="review-card"><h4 style="color:var(--primary)">${r.name}</h4><p style="font-style:italic; margin-top:10px;">"${r.text}"</p></div>`;
         });
 
-        // Render Branding
-        if(branding.banner) document.getElementById('heroBanner').style.backgroundImage = `linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('${branding.banner}')`;
-        if(branding.video) document.getElementById('videoPlayer').innerHTML = `<iframe width="100%" height="100%" src="${branding.video}" frameborder="0" allowfullscreen></iframe>`;
+        // Banner Image
+        if(branding.banner) {
+            document.getElementById('heroBanner').style.backgroundImage = `linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('${branding.banner}')`;
+        }
+
+        // Video
+        if(branding.video) {
+            document.getElementById('videoPlayer').innerHTML = `<iframe width="100%" height="100%" src="${branding.video}" frameborder="0" allowfullscreen></iframe>`;
+        }
     }
 
-    // --- Admin Actions ---
+    // --- Admin Logic ---
     function updateBranding() {
         branding.banner = document.getElementById('bannerInp').value;
         branding.video = document.getElementById('videoInp').value;
         localStorage.setItem('tv_branding', JSON.stringify(branding));
         render();
-        alert("Banner and Video Updated!");
+        alert("Branding Updated Successfully!");
     }
 
     function addReview() {
@@ -233,7 +244,8 @@
             reviews.push({ name, text });
             localStorage.setItem('tv_reviews', JSON.stringify(reviews));
             render();
-            alert("Review Added!");
+            document.getElementById('revName').value = '';
+            document.getElementById('revText').value = '';
         }
     }
 
@@ -242,9 +254,12 @@
         document.getElementById('detImg').src = p.img;
         document.getElementById('detName').innerText = p.name;
         document.getElementById('detPrice').innerText = "₹" + p.price;
-        document.getElementById('detDesc').innerText = p.desc;
-        document.getElementById('waLink').href = `https://wa.me/${OWNER_MOBILE}?text=Hello Matindra, I'm interested in ${p.name}`;
+        document.getElementById('detDesc').innerText = p.desc || "Traditional Tripura attire crafted with care.";
+        
+        const msg = encodeURIComponent(`Hello! I want to purchase ${p.name} (Price: ₹${p.price}).`);
+        document.getElementById('waLink').href = `https://wa.me/${OWNER_MOBILE}?text=${msg}`;
         document.getElementById('upiLink').href = `upi://pay?pa=${OWNER_UPI}&pn=TripuraVastra&am=${p.price}&cu=INR`;
+        
         document.getElementById('detailsModal').style.display = 'flex';
     }
 
@@ -267,7 +282,7 @@
         document.getElementById('editId').value = '';
     };
 
-    function deleteProduct(id) { products = products.filter(p => p.id !== id); localStorage.setItem('tv_products', JSON.stringify(products)); render(); }
+    function deleteProduct(id) { if(confirm('Delete this product?')) { products = products.filter(p => p.id !== id); localStorage.setItem('tv_products', JSON.stringify(products)); render(); } }
     
     function editProduct(id) {
         const p = products.find(prod => prod.id === id);
@@ -276,10 +291,10 @@
         document.getElementById('pPrice').value = p.price;
         document.getElementById('pDesc').value = p.desc;
         document.getElementById('pImg').value = p.img;
-        window.scrollTo(0, document.getElementById('adminPanel').offsetTop);
+        document.getElementById('adminPanel').scrollIntoView();
     }
 
-    function adminLogin() { if(prompt("Password:") === ADMIN_PASS) { isLogged = true; document.getElementById('adminPanel').style.display = 'block'; render(); } }
+    function adminLogin() { if(prompt("Owner Password:") === ADMIN_PASS) { isLogged = true; document.getElementById('adminPanel').style.display = 'block'; render(); } }
     function logout() { isLogged = false; document.getElementById('adminPanel').style.display = 'none'; render(); }
     function closeModal(id) { document.getElementById(id).style.display = 'none'; }
 
