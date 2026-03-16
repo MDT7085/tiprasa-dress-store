@@ -1,337 +1,348 @@
-# Unique Gift – Traditional Clothing Shop Website Starter Template
-
-This starter template shows a simple full‑stack structure for your shop website with:
-
-* Home page
-* Product listing
-* Product details page
-* WhatsApp contact
-* Call button
-* Admin panel to add products
-
----
-
-# 1. Project Folder Structure
-
-```
-unique-gift-website
-
-frontend/
-  index.html
-  style.css
-  app.js
-
-admin/
-  admin.html
-  admin.js
-
-backend/
-  server.js
-  package.json
-
-uploads/
-```
-
----
-
-# 2. Frontend Home Page (frontend/index.html)
-
-```html
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>Unique Gift - Traditional Clothing Shop</title>
-<link rel="stylesheet" href="style.css">
-</head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unique Gift – Traditional Clothing Shop</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --primary: #8e2de2;
+            --secondary: #4a00e0;
+            --accent: #ff4757;
+            --dark: #2f3542;
+            --light: #f1f2f6;
+            --white: #ffffff;
+            --shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
 
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Poppins', sans-serif; background-color: var(--light); color: var(--dark); overflow-x: hidden; scroll-behavior: smooth; }
+
+        /* --- Header --- */
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: var(--white);
+            padding: 60px 20px;
+            text-align: center;
+            box-shadow: var(--shadow);
+            animation: fadeIn 1s ease-in;
+        }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+
+        .shop-name { font-family: 'Playfair Display', serif; font-size: 3rem; margin-bottom: 10px; }
+        .address { font-weight: 300; margin-bottom: 25px; opacity: 0.9; }
+        
+        .btn-maps {
+            background: var(--white);
+            color: var(--secondary);
+            padding: 12px 25px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: 0.3s;
+            display: inline-block;
+        }
+        .btn-maps:hover { transform: scale(1.05); box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
+
+        /* --- Search & Filters --- */
+        .controls { max-width: 1100px; margin: -40px auto 40px; background: var(--white); padding: 30px; border-radius: 20px; box-shadow: var(--shadow); z-index: 10; position: relative; }
+        .search-bar { width: 100%; padding: 18px; border: 2px solid #eee; border-radius: 12px; margin-bottom: 25px; font-size: 1rem; outline: none; transition: 0.3s; }
+        .search-bar:focus { border-color: var(--primary); }
+        
+        .categories { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; }
+        .cat-btn { 
+            padding: 10px 22px; border: none; background: #f0f0f0; border-radius: 25px; 
+            cursor: pointer; transition: 0.3s; font-weight: 500; font-family: inherit;
+        }
+        .cat-btn.active, .cat-btn:hover { background: var(--primary); color: white; transform: translateY(-2px); }
+
+        /* --- Product Grid --- */
+        .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+        .product-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); 
+            gap: 30px; 
+        }
+
+        .product-card {
+            background: var(--white);
+            border-radius: 20px;
+            overflow: hidden;
+            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+        .product-card:hover { transform: translateY(-12px); box-shadow: var(--shadow); }
+
+        .img-container { height: 380px; overflow: hidden; position: relative; }
+        .product-card img { width: 100%; height: 100%; object-fit: cover; transition: 0.6s; }
+        .product-card:hover img { transform: scale(1.1); }
+
+        .product-info { padding: 20px; text-align: center; }
+        .price { color: var(--primary); font-weight: 700; font-size: 1.3rem; margin: 8px 0; }
+        .btn-details {
+            background: var(--dark);
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            width: 100%;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+        .btn-details:hover { background: var(--secondary); }
+
+        /* --- Modal --- */
+        .modal {
+            position: fixed; top:0; left:0; width:100%; height:100%;
+            background: rgba(0,0,0,0.85);
+            display: none; justify-content: center; align-items: center;
+            z-index: 2000; padding: 20px; backdrop-filter: blur(5px);
+        }
+        .modal-content {
+            background: white; width: 100%; max-width: 900px; border-radius: 20px;
+            display: grid; grid-template-columns: 1fr 1fr; overflow: hidden; position: relative;
+            animation: modalPop 0.4s ease;
+        }
+        @keyframes modalPop { from { opacity: 0; scale: 0.8; } to { opacity: 1; scale: 1; } }
+        .close-modal { position: absolute; top: 15px; right: 20px; font-size: 30px; cursor: pointer; z-index: 10; color: #333; }
+
+        .contact-btns { display: flex; flex-direction: column; gap: 12px; margin-top: 25px; }
+        .btn-wa { background: #25D366; color: white; text-decoration: none; padding: 15px; border-radius: 10px; text-align: center; font-weight: 600; }
+        .btn-call { background: #3498db; color: white; text-decoration: none; padding: 15px; border-radius: 10px; text-align: center; font-weight: 600; }
+
+        /* --- Admin Section (Hidden) --- */
+        #admin-panel { 
+            display: none; 
+            background: #fff; 
+            margin: 50px auto; 
+            padding: 40px; 
+            border-radius: 20px;
+            border: 2px dashed var(--primary);
+            max-width: 800px;
+        }
+        .admin-form input, .admin-form textarea, .admin-form select {
+            width: 100%; padding: 14px; margin: 10px 0; border: 1px solid #ddd; border-radius: 8px; font-family: inherit;
+        }
+        .delete-btn { background: #ff4757; color: white; border: none; padding: 5px 10px; border-radius: 5px; cursor: pointer; margin-top: 10px; }
+
+        /* --- Footer --- */
+        footer { background: #1a1a1a; color: #fff; padding: 60px 20px; margin-top: 80px; text-align: center; }
+        .secret-trigger { cursor: help; opacity: 0.5; transition: 0.3s; }
+        .secret-trigger:hover { opacity: 1; color: var(--primary); }
+
+        @media (max-width: 768px) {
+            .modal-content { grid-template-columns: 1fr; max-height: 90vh; overflow-y: auto; }
+            .img-container { height: 300px; }
+            .shop-name { font-size: 2rem; }
+        }
+    </style>
+</head>
 <body>
 
 <header>
-<h1>Unique Gift</h1>
-<p>Full Shop Address Here</p>
-
-<a href="https://maps.google.com/?q=YOUR_LOCATION" target="_blank">
-<button>View on Google Maps</button>
-</a>
-
+    <h1 class="shop-name">Unique Gift – Traditional Clothing Shop</h1>
+    <p class="address"><i class="fas fa-map-marker-alt"></i> 123 Heritage Street, Cultural Zone, Kolkata, India</p>
+    <a href="https://goo.gl/maps/example" target="_blank" class="btn-maps">View on Google Maps</a>
 </header>
 
-<section class="search">
-<input type="text" id="search" placeholder="Search products">
-</section>
+<div class="container">
+    <div class="controls">
+        <input type="text" id="searchInput" class="search-bar" placeholder="Search for products (e.g. Silk Saree)...">
+        <div class="categories" id="categoryFilters">
+            <button class="cat-btn active" data-cat="all">All</button>
+            <button class="cat-btn" data-cat="Saree">Saree</button>
+            <button class="cat-btn" data-cat="Kurti">Kurti</button>
+            <button class="cat-btn" data-cat="Traditional Dress">Traditional Dress</button>
+            <button class="cat-btn" data-cat="Ethnic Wear">Ethnic Wear</button>
+            <button class="cat-btn" data-cat="Accessories">Accessories</button>
+            <button class="cat-btn" data-cat="Gift Items">Gift Items</button>
+        </div>
+    </div>
 
-<section id="categories">
-<button onclick="filterCategory('saree')">Saree</button>
-<button onclick="filterCategory('kurti')">Kurti</button>
-<button onclick="filterCategory('gift')">Gift Items</button>
-</section>
-
-<section id="products"></section>
-
-<script src="app.js"></script>
-
-</body>
-</html>
-```
-
----
-
-# 3. CSS Design (frontend/style.css)
-
-```css
-body{
-font-family: Arial;
-margin:0;
-background:#fafafa;
-}
-
-header{
-text-align:center;
-padding:20px;
-background:#111;
-color:white;
-}
-
-button{
-padding:10px 20px;
-margin:5px;
-border:none;
-background:#e91e63;
-color:white;
-cursor:pointer;
-}
-
-#products{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
-gap:20px;
-padding:20px;
-}
-
-.product-card{
-background:white;
-padding:10px;
-border-radius:10px;
-box-shadow:0 0 10px rgba(0,0,0,0.1);
-}
-
-.product-card img{
-width:100%;
-border-radius:10px;
-}
-```
-
----
-
-# 4. Product Loading Script (frontend/app.js)
-
-```javascript
-const API="http://localhost:5000/products"
-
-async function loadProducts(){
-
-const res = await fetch(API)
-const products = await res.json()
-
-const container = document.getElementById("products")
-
-container.innerHTML=""
-
-products.forEach(p=>{
-
-container.innerHTML += `
-<div class="product-card">
-
-<img src="http://localhost:5000/${p.image}"/>
-
-<h3>${p.name}</h3>
-<p>₹${p.price}</p>
-
-<a href="product.html?id=${p._id}">
-<button>View Details</button>
-</a>
-
+    <div class="product-grid" id="productGrid">
+        </div>
 </div>
-`
 
-})
-}
+<div id="productModal" class="modal">
+    <div class="modal-content">
+        <span class="close-modal">&times;</span>
+        <div class="modal-img">
+            <img src="" id="modalImg" style="width: 100%; height: 100%; object-fit: cover;">
+        </div>
+        <div class="product-info" style="text-align: left; padding: 40px;">
+            <h2 id="modalName" style="font-family: 'Playfair Display', serif; font-size: 2rem;"></h2>
+            <p class="price" id="modalPrice"></p>
+            <p id="modalDesc" style="margin: 20px 0; color: #555; line-height: 1.6;"></p>
+            <div class="contact-btns">
+                <a href="#" id="waBtn" target="_blank" class="btn-wa"><i class="fab fa-whatsapp"></i> Inquiry on WhatsApp</a>
+                <a href="tel:+91XXXXXXXXXX" class="btn-call"><i class="fas fa-phone"></i> Call Now</a>
+            </div>
+        </div>
+    </div>
+</div>
 
-loadProducts()
-```
+<section id="admin-panel">
+    <h2 style="margin-bottom: 20px; color: var(--primary);">Admin Dashboard</h2>
+    <form class="admin-form" id="addProductForm">
+        <input type="text" id="adminName" placeholder="Product Name" required>
+        <select id="adminCat">
+            <option value="Saree">Saree</option>
+            <option value="Kurti">Kurti</option>
+            <option value="Traditional Dress">Traditional Dress</option>
+            <option value="Ethnic Wear">Ethnic Wear</option>
+            <option value="Accessories">Accessories</option>
+            <option value="Gift Items">Gift Items</option>
+        </select>
+        <input type="text" id="adminPrice" placeholder="Price (e.g. ₹1,999)" required>
+        <textarea id="adminDesc" rows="4" placeholder="Full Product Description" required></textarea>
+        <input type="text" id="adminImg" placeholder="Image URL (use Unsplash or your hosting)" required>
+        <button type="submit" class="btn-details" style="background: var(--primary); padding: 15px;">Add New Product</button>
+    </form>
+    <button onclick="logoutAdmin()" style="margin-top: 20px; background: none; border: 1px solid #ccc; padding: 5px 10px; cursor: pointer; border-radius: 5px;">Lock Admin Panel</button>
+</section>
 
----
+<footer>
+    <div class="container">
+        <p><strong>Unique Gift – Traditional Clothing Shop</strong></p>
+        <p>123 Heritage Street, Kolkata | +91 XXXXXXXXXX</p>
+        <div style="margin-top: 20px; font-size: 1.5rem; display: flex; justify-content: center; gap: 20px;">
+            <i class="fab fa-whatsapp"></i>
+            <i class="fab fa-facebook"></i>
+            <i class="fab fa-instagram"></i>
+        </div>
+        <p class="secret-trigger" id="adminTrigger" style="margin-top: 40px; font-size: 0.8rem;">&copy; 2026 Unique Gift. All rights reserved.</p>
+    </div>
+</footer>
 
-# 5. Admin Panel (admin/admin.html)
+<script>
+    // --- Initial Data ---
+    const defaultProducts = [
+        { id: 1, name: 'Royal Banarasi Saree', cat: 'Saree', price: '₹5,500', desc: 'A timeless classic Banarasi silk saree with intricate golden zari borders.', img: 'https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=800&q=80' },
+        { id: 2, name: 'Designer Floral Kurti', cat: 'Kurti', price: '₹1,499', desc: 'Premium cotton kurti featuring hand-printed floral motifs and modern cut.', img: 'https://images.unsplash.com/photo-1583391733956-3750e0ff4e8b?auto=format&fit=crop&w=800&q=80' },
+        { id: 3, name: 'Ethnic Jhumka Set', cat: 'Accessories', price: '₹850', desc: 'Traditional oxidized silver jhumkas with peacock design.', img: 'https://images.unsplash.com/photo-1630019240408-963e6393b3f9?auto=format&fit=crop&w=800&q=80' }
+    ];
 
-```html
-<!DOCTYPE html>
-<html>
+    let products = JSON.parse(localStorage.getItem('shop_products')) || defaultProducts;
+    let isAdminAuthenticated = false;
 
-<head>
-<title>Admin Panel</title>
-</head>
+    const grid = document.getElementById('productGrid');
+    const searchInput = document.getElementById('searchInput');
 
-<body>
+    // --- Core Functions ---
+    function renderProducts(filter = 'all', keyword = '') {
+        grid.innerHTML = '';
+        const filtered = products.filter(p => {
+            const matchesCat = filter === 'all' || p.cat === filter;
+            const matchesSearch = p.name.toLowerCase().includes(keyword.toLowerCase());
+            return matchesCat && matchesSearch;
+        });
 
-<h2>Add Product</h2>
+        filtered.forEach(p => {
+            grid.innerHTML += `
+                <div class="product-card">
+                    <div class="img-container">
+                        <img src="${p.img}" alt="${p.name}" loading="lazy">
+                    </div>
+                    <div class="product-info">
+                        <h3>${p.name}</h3>
+                        <p class="price">${p.price}</p>
+                        <button class="btn-details" onclick="showDetails(${p.id})">View Details</button>
+                        ${isAdminAuthenticated ? `<button class="delete-btn" onclick="deleteProduct(${p.id})"><i class="fas fa-trash"></i> Delete</button>` : ''}
+                    </div>
+                </div>
+            `;
+        });
+    }
 
-<input id="name" placeholder="Product Name">
-<input id="price" placeholder="Price">
-<textarea id="description" placeholder="Description"></textarea>
+    // --- Admin Logic ---
+    const ADMIN_PASSWORD = "admin123"; // Change this to your preferred password
 
-<input type="file" id="image">
+    document.getElementById('adminTrigger').addEventListener('dblclick', () => {
+        const pw = prompt("Enter Admin Password:");
+        if(pw === ADMIN_PASSWORD) {
+            isAdminAuthenticated = true;
+            document.getElementById('admin-panel').style.display = 'block';
+            document.getElementById('admin-panel').scrollIntoView();
+            renderProducts();
+            alert("Welcome, Admin!");
+        } else {
+            alert("Incorrect password.");
+        }
+    });
 
-<button onclick="addProduct()">Add Product</button>
+    function logoutAdmin() {
+        isAdminAuthenticated = false;
+        document.getElementById('admin-panel').style.display = 'none';
+        renderProducts();
+    }
 
-<script src="admin.js"></script>
+    // --- Product CRUD ---
+    document.getElementById('addProductForm').addEventListener('submit', (e) => {
+        e.preventDefault();
+        const newProd = {
+            id: Date.now(),
+            name: document.getElementById('adminName').value,
+            cat: document.getElementById('adminCat').value,
+            price: document.getElementById('adminPrice').value,
+            desc: document.getElementById('adminDesc').value,
+            img: document.getElementById('adminImg').value
+        };
+        products.push(newProd);
+        localStorage.setItem('shop_products', JSON.stringify(products));
+        renderProducts();
+        e.target.reset();
+    });
+
+    function deleteProduct(id) {
+        if(confirm('Are you sure you want to remove this product?')) {
+            products = products.filter(p => p.id !== id);
+            localStorage.setItem('shop_products', JSON.stringify(products));
+            renderProducts();
+        }
+    }
+
+    // --- Modal Logic ---
+    function showDetails(id) {
+        const p = products.find(prod => prod.id === id);
+        document.getElementById('modalImg').src = p.img;
+        document.getElementById('modalName').innerText = p.name;
+        document.getElementById('modalPrice').innerText = p.price;
+        document.getElementById('modalDesc').innerText = p.desc;
+        
+        const waMsg = encodeURIComponent(`Hello, I'm interested in: ${p.name}\nPrice: ${p.price}\nLink: ${window.location.href}`);
+        document.getElementById('waBtn').href = `https://wa.me/91XXXXXXXXXX?text=${waMsg}`;
+        
+        document.getElementById('productModal').style.display = 'flex';
+    }
+
+    document.querySelector('.close-modal').onclick = () => {
+        document.getElementById('productModal').style.display = 'none';
+    };
+
+    window.onclick = (e) => {
+        if(e.target == document.getElementById('productModal')) {
+            document.getElementById('productModal').style.display = 'none';
+        }
+    };
+
+    // --- Filtering ---
+    searchInput.addEventListener('input', (e) => renderProducts('all', e.target.value));
+
+    document.getElementById('categoryFilters').addEventListener('click', (e) => {
+        if(e.target.classList.contains('cat-btn')) {
+            document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+            e.target.classList.add('active');
+            renderProducts(e.target.getAttribute('data-cat'));
+        }
+    });
+
+    // Run on Load
+    renderProducts();
+</script>
 
 </body>
-
 </html>
-```
-
----
-
-# 6. Admin Script (admin/admin.js)
-
-```javascript
-async function addProduct(){
-
-const formData = new FormData()
-
-formData.append("name",document.getElementById("name").value)
-formData.append("price",document.getElementById("price").value)
-formData.append("description",document.getElementById("description").value)
-
-formData.append("image",document.getElementById("image").files[0])
-
-await fetch("http://localhost:5000/add-product",{
-method:"POST",
-body:formData
-})
-
-alert("Product Added")
-
-}
-```
-
----
-
-# 7. Backend Server (backend/server.js)
-
-```javascript
-const express = require("express")
-const multer = require("multer")
-const cors = require("cors")
-
-const app = express()
-
-app.use(cors())
-app.use(express.json())
-app.use("/uploads",express.static("uploads"))
-
-let products=[]
-
-const storage = multer.diskStorage({
-
-destination:(req,file,cb)=>{
-cb(null,"uploads/")
-},
-
-filename:(req,file,cb)=>{
-cb(null,Date.now()+file.originalname)
-}
-
-})
-
-const upload = multer({storage})
-
-app.post("/add-product",upload.single("image"),(req,res)=>{
-
-const product={
-
-_id:Date.now(),
-name:req.body.name,
-price:req.body.price,
-description:req.body.description,
-image:req.file.path
-
-}
-
-products.push(product)
-
-res.send(product)
-
-})
-
-app.get("/products",(req,res)=>{
-res.send(products)
-})
-
-app.listen(5000,()=>{
-console.log("Server Running")
-})
-```
-
----
-
-# 8. WhatsApp Contact Button (Use in Product Page)
-
-```html
-<a href="https://wa.me/91YOURNUMBER?text=Hello%20I%20am%20interested%20in%20this%20product">
-<button>Contact on WhatsApp</button>
-</a>
-```
-
----
-
-# 9. Call Button
-
-```html
-<a href="tel:+91YOURNUMBER">
-<button>Call Now</button>
-</a>
-```
-
----
-
-# 10. Run The Website
-
-Backend:
-
-```
-npm init -y
-npm install express multer cors
-node server.js
-```
-
-Then open:
-
-```
-frontend/index.html
-```
-
-Admin panel:
-
-```
-admin/admin.html
-```
-
----
-
-# 11. Future Improvements
-
-Add:
-
-* MongoDB database
-* Login authentication
-* Product categories
-* Video upload
-* Animations
-* SEO optimization
-* Mobile UI improvements
-
----
-
-This template gives you the base structure for your shop website.
