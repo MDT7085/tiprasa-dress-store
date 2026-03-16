@@ -3,96 +3,106 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tripura Vastra (Tiprasa Kanmung-Chumung) – Traditional Clothing Shop</title>
+    <title>Tripura Vastra (Tiprasa Kanmung-Chumung)</title>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     
     <style>
         :root {
-            --primary: #8e2de2;
-            --secondary: #4a00e0;
+            --primary: #d63031;
+            --secondary: #2d3436;
             --success: #25D366;
             --upi-blue: #0971b8;
-            --dark: #2f3542;
-            --light: #f1f2f6;
+            --light: #f9f9f9;
             --white: #ffffff;
             --shadow: 0 10px 30px rgba(0,0,0,0.1);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Poppins', sans-serif; background-color: var(--light); color: var(--dark); line-height: 1.6; }
+        body { font-family: 'Poppins', sans-serif; background-color: var(--light); color: var(--secondary); line-height: 1.6; }
 
-        header { background: linear-gradient(135deg, var(--primary), var(--secondary)); color: var(--white); padding: 60px 20px; text-align: center; }
-        .shop-name { font-family: 'Playfair Display', serif; font-size: 2.8rem; margin-bottom: 10px; }
+        header { background: linear-gradient(135deg, #d63031, #636e72); color: var(--white); padding: 50px 20px; text-align: center; }
+        .shop-name { font-family: 'Playfair Display', serif; font-size: 2.2rem; margin-bottom: 5px; }
+        .sub-name { font-size: 1.1rem; opacity: 0.9; font-weight: 300; margin-bottom: 20px; display: block; }
         
-        .controls { max-width: 1100px; margin: -40px auto 40px; background: var(--white); padding: 30px; border-radius: 20px; box-shadow: var(--shadow); position: relative; z-index: 10; }
-        .search-bar { width: 100%; padding: 15px; border: 2px solid #eee; border-radius: 12px; margin-bottom: 20px; font-size: 1rem; outline: none; }
-        .categories { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
-        .cat-btn { padding: 8px 20px; border: none; background: #f0f0f0; border-radius: 20px; cursor: pointer; transition: 0.3s; }
+        .controls { max-width: 1100px; margin: -30px auto 40px; background: var(--white); padding: 25px; border-radius: 15px; box-shadow: var(--shadow); position: relative; z-index: 10; text-align: center; }
+        .search-bar { width: 100%; padding: 12px; border: 2px solid #eee; border-radius: 10px; margin-bottom: 20px; font-size: 1rem; outline: none; }
+        
+        .categories { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
+        .cat-btn { padding: 6px 15px; border: none; background: #f0f0f0; border-radius: 20px; cursor: pointer; transition: 0.3s; font-size: 0.9rem; }
         .cat-btn.active { background: var(--primary); color: white; }
 
         .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
-        .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 30px; }
-        .product-card { background: var(--white); border-radius: 20px; overflow: hidden; transition: 0.4s; box-shadow: 0 5px 15px rgba(0,0,0,0.05); position: relative; }
-        .img-container { height: 350px; overflow: hidden; }
+        .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 25px; }
+        .product-card { background: var(--white); border-radius: 15px; overflow: hidden; transition: 0.3s; box-shadow: 0 4px 10px rgba(0,0,0,0.05); position: relative; }
+        .product-card:hover { transform: translateY(-8px); box-shadow: var(--shadow); }
+        .img-container { height: 320px; overflow: hidden; }
         .product-card img { width: 100%; height: 100%; object-fit: cover; }
-        .product-info { padding: 20px; text-align: center; }
-        .price { color: var(--primary); font-weight: 700; font-size: 1.3rem; margin: 5px 0; }
+        .product-info { padding: 15px; text-align: center; }
+        .price { color: var(--primary); font-weight: 700; font-size: 1.2rem; }
 
-        /* Admin Controls */
         .admin-controls { position: absolute; top: 10px; right: 10px; display: flex; gap: 5px; z-index: 5; }
-        .edit-badge { background: #ffa502; color: white; padding: 5px 10px; border-radius: 5px; cursor: pointer; border: none; font-size: 0.7rem; }
-        .delete-badge { background: #ff4757; color: white; padding: 5px 10px; border-radius: 5px; cursor: pointer; border: none; font-size: 0.7rem; }
+        .edit-badge { background: #ffa502; color: white; padding: 4px 8px; border-radius: 4px; cursor: pointer; border: none; font-size: 0.7rem; }
+        .delete-badge { background: #ff4757; color: white; padding: 4px 8px; border-radius: 4px; cursor: pointer; border: none; font-size: 0.7rem; }
 
-        .modal { position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.8); display: none; justify-content: center; align-items: center; z-index: 1000; padding: 20px; }
-        .modal-content { background: white; width: 100%; max-width: 900px; border-radius: 15px; display: grid; grid-template-columns: 1fr 1fr; overflow: hidden; position: relative; }
-        .close-modal { position: absolute; top: 15px; right: 20px; font-size: 25px; cursor: pointer; color: #333; z-index: 10; }
+        .modal { position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.85); display: none; justify-content: center; align-items: center; z-index: 1000; padding: 15px; }
+        .modal-content { background: white; width: 100%; max-width: 850px; border-radius: 15px; display: grid; grid-template-columns: 1fr 1fr; overflow: hidden; position: relative; }
+        .close-modal { position: absolute; top: 10px; right: 15px; font-size: 24px; cursor: pointer; z-index: 10; }
 
-        .btn-main { background: var(--dark); color: white; border: none; padding: 12px; border-radius: 8px; cursor: pointer; width: 100%; font-weight: 600; margin-top: 10px; text-decoration: none; display: inline-block; text-align: center; }
-        .btn-wa { background: var(--success); color: white; }
-        .btn-upi { background: var(--upi-blue); color: white; }
+        .btn-main { background: var(--secondary); color: white; border: none; padding: 12px; border-radius: 8px; cursor: pointer; width: 100%; font-weight: 600; margin-top: 10px; text-decoration: none; display: inline-block; text-align: center; font-size: 0.95rem; }
+        .btn-wa { background: var(--success); }
+        .btn-upi { background: var(--upi-blue); }
 
         .admin-section { background: white; padding: 30px; border-radius: 15px; margin-top: 40px; display: none; border: 2px dashed var(--primary); }
-        input, select, textarea { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 8px; }
+        input, select, textarea { width: 100%; padding: 10px; margin: 8px 0; border: 1px solid #ddd; border-radius: 8px; }
 
-        footer { background: #1a1a1a; color: #fff; padding: 50px 20px; text-align: center; margin-top: 60px; }
-        .dev-credit { margin-top: 20px; font-size: 0.8rem; letter-spacing: 1px; color: #aaa; border-top: 1px solid #333; padding-top: 20px; }
+        footer { background: #1a1a1a; color: #fff; padding: 40px 20px; text-align: center; margin-top: 60px; }
+        .dev-credit { margin-top: 15px; font-size: 0.75rem; color: #888; border-top: 1px solid #333; padding-top: 15px; letter-spacing: 1px; }
         .dev-credit b { color: var(--primary); }
 
-        @media (max-width: 768px) { .modal-content { grid-template-columns: 1fr; } .img-container { height: 250px; } }
+        @media (max-width: 768px) { .modal-content { grid-template-columns: 1fr; max-height: 90vh; overflow-y: auto; } .img-container { height: 280px; } .shop-name { font-size: 1.6rem; } }
     </style>
 </head>
 <body>
 
 <header>
-    <h1 class="shop-name">Tripura Vastra (Tiprasa Kanmung-Chumung)</h1>
-    <p><i class="fas fa-map-marker-alt"></i> Heritage Street, Kolkata, India</p>
+    <h1 class="shop-name">Tripura Vastra</h1>
+    <span class="sub-name">(Tiprasa Kanmung-Chumung)</span>
+    <p style="font-size: 0.9rem;"><i class="fas fa-phone"></i> +91 9863653392</p>
 </header>
 
 <div class="container">
     <div class="controls">
-        <input type="text" id="searchInput" class="search-bar" placeholder="Search products...">
+        <input type="text" id="searchInput" class="search-bar" placeholder="Search for Rignai, Kurti or Accessories...">
         <div class="categories" id="categoryFilters">
             <button class="cat-btn active" data-cat="all">All</button>
-            <button class="cat-btn" data-cat="Saree">Saree</button>
-            <button class="cat-btn" data-cat="Kurti">Kurti</button>
-            <button class="cat-btn" data-cat="Traditional Dress">Traditional Dress</button>
+            <button class="cat-btn" data-cat="Tripura Rignai">Tripura Rignai</button>
+            <button class="cat-btn" data-cat="Debbarma Rignai">Debbarma Rignai</button>
+            <button class="cat-btn" data-cat="Reang Rignai">Reang Rignai</button>
+            <button class="cat-btn" data-cat="Jamatia Rignai">Jamatia Rignai</button>
+            <button class="cat-btn" data-cat="Accessories">Accessories</button>
         </div>
     </div>
 
     <div id="productGrid" class="product-grid"></div>
 
     <div id="adminPanel" class="admin-section">
-        <h3 id="formTitle">Add New Product</h3>
+        <h3 id="formTitle">Manage Product</h3>
         <form id="productForm">
             <input type="hidden" id="editId">
             <input type="text" id="pName" placeholder="Product Name" required>
-            <select id="pCat"><option value="Saree">Saree</option><option value="Kurti">Kurti</option></select>
-            <input type="number" id="pPrice" placeholder="Price Amount (Numbers only, e.g. 1500)" required>
-            <textarea id="pDesc" placeholder="Description" rows="3" required></textarea>
-            <input type="text" id="pImg" placeholder="Image URL" required>
+            <select id="pCat">
+                <option value="Tripura Rignai">Tripura Rignai</option>
+                <option value="Debbarma Rignai">Debbarma Rignai</option>
+                <option value="Reang Rignai">Reang Rignai</option>
+                <option value="Jamatia Rignai">Jamatia Rignai</option>
+                <option value="Accessories">Accessories</option>
+            </select>
+            <input type="number" id="pPrice" placeholder="Price (Amount Only, e.g. 2500)" required>
+            <textarea id="pDesc" placeholder="Product Description" rows="3" required></textarea>
+            <input type="text" id="pImg" placeholder="Image Link (URL)" required>
             <button type="submit" class="btn-main" style="background:var(--primary)">Save Product</button>
-            <button type="button" onclick="hideAdmin()" class="btn-main" style="background:#ccc; color:#333;">Close Panel</button>
+            <button type="button" onclick="hideAdmin()" class="btn-main" style="background:#ccc; color:#333;">Cancel</button>
         </form>
     </div>
 </div>
@@ -101,29 +111,30 @@
     <div class="modal-content">
         <span class="close-modal" onclick="closeModal('detailsModal')">&times;</span>
         <img id="detImg" src="" style="width:100%; height:100%; object-fit:cover;">
-        <div style="padding:30px;">
-            <h2 id="detName"></h2>
+        <div style="padding:25px;">
+            <h2 id="detName" style="font-family:'Playfair Display', serif;"></h2>
             <p id="detPrice" class="price"></p>
-            <p id="detDesc" style="margin:15px 0; color:#666;"></p>
-            <a href="#" id="upiLink" class="btn-main btn-upi"><i class="fas fa-mobile-alt"></i> Pay with UPI (GPay/PhonePe)</a>
+            <p id="detDesc" style="margin:12px 0; color:#555; font-size: 0.9rem;"></p>
+            <a href="#" id="upiLink" class="btn-main btn-upi"><i class="fas fa-wallet"></i> Pay with UPI (GPay/Paytm)</a>
             <a href="#" id="waLink" target="_blank" class="btn-main btn-wa"><i class="fab fa-whatsapp"></i> WhatsApp Owner</a>
         </div>
     </div>
 </div>
 
 <footer>
-    <p>Tripura Vastra (Tiprasa Kanmung-Chumung) – Traditional Clothing Shop</p>
+    <p><b>Tripura Vastra (Tiprasa Kanmung-Chumung)</b></p>
+    <p>Agartala, Tripura | Contact: 9863653392</p>
     <div class="dev-credit">WEBSITE DESIGN AND DEVELOP BY <b>MATINDRA TRIPURA</b></div>
-    <p style="margin-top:20px; font-size:0.7rem; opacity:0.3; cursor:pointer;" onclick="promptLogin()">Admin Login</p>
+    <p style="margin-top:20px; font-size:0.6rem; opacity:0.3; cursor:pointer;" onclick="adminLogin()">Owner Login</p>
 </footer>
 
 <script>
     const OWNER_MOBILE = "919863653392"; 
     const OWNER_UPI = "matindratripura911-2@okicici";
-    const ADMIN_PASS = "admin";
+    const ADMIN_PASS = "admin"; // Change this if you want
 
-    let products = JSON.parse(localStorage.getItem('unique_gift_db')) || [
-        { id: 1, name: 'Traditional Silk Saree', cat: 'Saree', price: '4999', desc: 'Elegant handwoven saree.', img: 'https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=500' }
+    let products = JSON.parse(localStorage.getItem('tripura_vastra_db')) || [
+        { id: 1, name: 'Traditional Debbarma Rignai', cat: 'Debbarma Rignai', price: '2800', desc: 'Authentic handwoven Rignai with traditional motifs.', img: 'https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=500' }
     ];
     let isLogged = false;
 
@@ -138,11 +149,11 @@
                         <button class="edit-badge" onclick="editProduct(${p.id})">Edit</button>
                         <button class="delete-badge" onclick="deleteProduct(${p.id})">Delete</button>
                     </div>` : ''}
-                    <div class="img-container"><img src="${p.img}"></div>
+                    <div class="img-container"><img src="${p.img}" loading="lazy"></div>
                     <div class="product-info">
-                        <h3>${p.name}</h3>
+                        <h3 style="font-size:1.1rem">${p.name}</h3>
                         <p class="price">₹${p.price}</p>
-                        <button class="btn-main" onclick="viewDetails(${p.id})">Details & Buy</button>
+                        <button class="btn-main" onclick="viewDetails(${p.id})">Buy Now</button>
                     </div>
                 </div>`;
         });
@@ -155,12 +166,9 @@
         document.getElementById('detPrice').innerText = "₹" + p.price;
         document.getElementById('detDesc').innerText = p.desc;
         
-        // WhatsApp Link
-        const msg = encodeURIComponent(`Hello Matindra, I want to buy: ${p.name} for ₹${p.price}`);
+        const msg = encodeURIComponent(`Hi Matindra, I'm interested in: ${p.name} (₹${p.price}). Is it available?`);
         document.getElementById('waLink').href = `https://wa.me/${OWNER_MOBILE}?text=${msg}`;
-        
-        // UPI Link (Works on Mobile)
-        document.getElementById('upiLink').href = `upi://pay?pa=${OWNER_UPI}&pn=UniqueGift&am=${p.price}&cu=INR&tn=Order_${p.id}`;
+        document.getElementById('upiLink').href = `upi://pay?pa=${OWNER_UPI}&pn=TripuraVastra&am=${p.price}&cu=INR&tn=Order_${p.id}`;
         
         document.getElementById('detailsModal').style.display = 'flex';
     }
@@ -178,25 +186,38 @@
         };
         if(id) { products[products.findIndex(p => p.id == id)] = data; } 
         else { products.push(data); }
-        localStorage.setItem('unique_gift_db', JSON.stringify(products));
+        localStorage.setItem('tripura_vastra_db', JSON.stringify(products));
         render(); hideAdmin();
     };
 
-    function deleteProduct(id) { if(confirm('Delete?')) { products = products.filter(p => p.id !== id); localStorage.setItem('unique_gift_db', JSON.stringify(products)); render(); } }
+    function deleteProduct(id) { if(confirm('Remove this product?')) { products = products.filter(p => p.id !== id); localStorage.setItem('tripura_vastra_db', JSON.stringify(products)); render(); } }
     
     function editProduct(id) {
         const p = products.find(prod => prod.id === id);
         document.getElementById('editId').value = p.id;
         document.getElementById('pName').value = p.name;
+        document.getElementById('pCat').value = p.cat;
         document.getElementById('pPrice').value = p.price;
         document.getElementById('pDesc').value = p.desc;
         document.getElementById('pImg').value = p.img;
+        document.getElementById('formTitle').innerText = "Edit Product";
         document.getElementById('adminPanel').style.display = 'block';
+        document.getElementById('adminPanel').scrollIntoView();
     }
 
-    function promptLogin() { if(prompt("Password:") === ADMIN_PASS) { isLogged = true; document.getElementById('adminPanel').style.display = 'block'; render(); } }
-    function hideAdmin() { document.getElementById('adminPanel').style.display = 'none'; document.getElementById('productForm').reset(); }
+    function adminLogin() { if(prompt("Enter Password:") === ADMIN_PASS) { isLogged = true; document.getElementById('adminPanel').style.display = 'block'; render(); alert("Login Success!"); } }
+    function hideAdmin() { document.getElementById('adminPanel').style.display = 'none'; document.getElementById('productForm').reset(); document.getElementById('editId').value = ''; }
     function closeModal(id) { document.getElementById(id).style.display = 'none'; }
+
+    document.getElementById('searchInput').oninput = (e) => render('all', e.target.value);
+    document.getElementById('categoryFilters').onclick = (e) => {
+        if(e.target.classList.contains('cat-btn')) {
+            document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+            e.target.classList.add('active');
+            render(e.target.dataset.cat);
+        }
+    };
+
     render();
 </script>
 </body>
