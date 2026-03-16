@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tripura Vastra | Tiprasa Shop</title>
+    <title>Tripura Vastra | Authentic Tiprasa Handloom</title>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     
@@ -12,197 +12,202 @@
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-storage.js"></script>
 
     <style>
-        :root { --primary: #d63031; --secondary: #2d3436; --success: #25D366; --upi-blue: #0971b8; --light: #f9f9f9; }
+        :root { --primary: #d63031; --secondary: #2d3436; --success: #25D366; --upi: #0971b8; --light: #f4f4f4; }
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
-        body { background: var(--light); }
+        body { background: var(--light); color: var(--secondary); }
 
+        /* Navigation */
         nav { background: white; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
-        .logo { font-family: 'Playfair Display', serif; font-weight: 700; color: var(--primary); font-size: 1.2rem; }
-        
+        .logo { font-family: 'Playfair Display', serif; font-weight: 700; color: var(--primary); font-size: 1.4rem; }
+        #status-dot { height: 10px; width: 10px; border-radius: 50%; display: inline-block; background: #ccc; margin-right: 5px; }
+
+        /* Hero Banner */
         .hero { 
             height: 40vh; background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1583391733956-3750e0ff4e8b?w=1200');
             background-size: cover; background-position: center; display: flex; flex-direction: column; justify-content: center; align-items: center; color: white; text-align: center;
         }
 
+        /* Container & Grid */
         .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
-        .controls { margin: -50px auto 40px; background: white; padding: 20px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); text-align: center; position: relative; z-index: 10; }
-        .cat-btn { padding: 8px 15px; border: none; background: #eee; border-radius: 20px; cursor: pointer; margin: 5px; }
-        .cat-btn.active { background: var(--primary); color: white; }
+        .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 25px; margin-top: 30px; }
+        .product-card { background: white; border-radius: 15px; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.05); cursor: pointer; transition: 0.3s; }
+        .product-card:hover { transform: translateY(-5px); }
+        .img-box { height: 320px; background: #eee; }
+        .img-box img { width: 100%; height: 100%; object-fit: cover; }
+        .p-details { padding: 15px; text-align: center; }
 
-        .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px; }
-        .product-card { background: white; border-radius: 15px; overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.05); cursor: pointer; }
-        .img-holder { height: 300px; background: #ddd; }
-        .img-holder img { width: 100%; height: 100%; object-fit: cover; }
-        .p-info { padding: 15px; text-align: center; }
-
-        /* Modal & Slider */
-        .modal { position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.9); display: none; justify-content: center; align-items: center; z-index: 9999; }
-        .m-card { background: white; width: 95%; max-width: 800px; border-radius: 20px; overflow: hidden; display: grid; grid-template-columns: 1fr 1fr; position: relative; }
-        .close-m { position: absolute; top: 10px; right: 15px; font-size: 30px; cursor: pointer; z-index: 10; background: white; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+        /* Modal / Slider */
+        .modal { position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.95); display: none; justify-content: center; align-items: center; z-index: 9999; padding: 15px; }
+        .m-content { background: white; width: 100%; max-width: 900px; border-radius: 20px; overflow: hidden; display: grid; grid-template-columns: 1fr 1fr; position: relative; }
+        .close-m { position: absolute; top: 15px; right: 20px; font-size: 35px; cursor: pointer; z-index: 10; background: white; border-radius: 50%; width: 45px; height: 45px; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 10px rgba(0,0,0,0.2); }
         
-        .slider { position: relative; height: 400px; background: #000; }
+        .slider { position: relative; height: 450px; background: #000; }
         .slider img { width: 100%; height: 100%; object-fit: contain; display: none; }
         .slider img.active { display: block; }
-        .s-nav { position: absolute; top: 50%; width: 100%; display: flex; justify-content: space-between; transform: translateY(-50%); }
-        .s-btn { background: rgba(0,0,0,0.5); color: white; border: none; padding: 10px; cursor: pointer; }
+        .s-nav { position: absolute; top: 50%; width: 100%; display: flex; justify-content: space-between; transform: translateY(-50%); padding: 0 10px; }
+        .s-btn { background: rgba(255,255,255,0.8); border: none; width: 40px; height: 40px; border-radius: 50%; cursor: pointer; font-size: 20px; }
 
-        .btn { padding: 12px; border-radius: 8px; border: none; width: 100%; cursor: pointer; font-weight: 600; margin-top: 10px; text-decoration: none; display: block; text-align: center; }
+        /* Admin Section */
+        .admin-panel { background: white; padding: 30px; border-radius: 15px; border: 2px dashed var(--primary); margin-bottom: 40px; display: none; }
+        input, select, textarea { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 8px; }
+
+        .btn { padding: 15px; border-radius: 10px; border: none; width: 100%; cursor: pointer; font-weight: 600; text-decoration: none; display: block; text-align: center; margin-top: 10px; }
         .btn-red { background: var(--primary); color: white; }
         .btn-wa { background: var(--success); color: white; }
         .btn-back { background: #eee; color: #333; }
 
-        .admin-box { background: #fff; padding: 20px; border-radius: 15px; border: 2px dashed var(--primary); margin-bottom: 30px; display: none; }
-        input, select { width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #ccc; border-radius: 5px; }
-
-        @media (max-width: 700px) { .m-card { grid-template-columns: 1fr; max-height: 90vh; overflow-y: auto; } .slider { height: 300px; } }
+        @media (max-width: 800px) { .m-content { grid-template-columns: 1fr; max-height: 90vh; overflow-y: auto; } .slider { height: 350px; } }
     </style>
 </head>
 <body>
 
 <nav>
     <div class="logo">TRIPURA VASTRA</div>
-    <div id="cloud-status" style="font-size: 12px; color: #666;">☁️ Connecting...</div>
+    <div style="font-size: 13px;"><span id="status-dot"></span> <span id="status-text">Connecting...</span></div>
 </nav>
 
-<div class="hero" id="banner">
+<div class="hero">
     <h1>Tripura Vastra</h1>
-    <p>Authentic Tiprasa Handloom</p>
+    <p>Premium Tiprasa Traditional Wear</p>
 </div>
 
 <div class="container">
-    <div class="controls">
-        <div id="cat-filters">
-            <button class="cat-btn active" onclick="filterCat('all')">All</button>
-            <button class="cat-btn" onclick="filterCat('Tripura Rignai')">Tripura Rignai</button>
-            <button class="cat-btn" onclick="filterCat('Reang Rignai')">Reang Rignai</button>
-        </div>
-    </div>
-
-    <div id="adminArea" class="admin-box">
-        <h3>Owner: Add New Product</h3>
+    <div id="adminPanel" class="admin-panel">
+        <h2 style="margin-bottom: 20px; text-align: center;">Owner Dashboard</h2>
         <form id="uploadForm">
-            <input type="text" id="name" placeholder="Product Name" required>
-            <input type="number" id="price" placeholder="Price (₹)" required>
-            <select id="category">
+            <input type="text" id="pName" placeholder="Product Name" required>
+            <input type="number" id="pPrice" placeholder="Price (₹)" required>
+            <select id="pCat">
                 <option value="Tripura Rignai">Tripura Rignai</option>
+                <option value="Debbarma Rignai">Debbarma Rignai</option>
                 <option value="Reang Rignai">Reang Rignai</option>
+                <option value="Jamatia Rignai">Jamatia Rignai</option>
             </select>
-            <p>Select Photos (Multiple):</p>
-            <input type="file" id="photos" multiple accept="image/*" required>
-            <button type="submit" id="upBtn" class="btn btn-red">Upload to Global Shop</button>
+            <p style="font-size: 13px; color: #666;">Select Multiple Photos:</p>
+            <input type="file" id="pFiles" accept="image/*" multiple required>
+            <button type="submit" id="upBtn" class="btn btn-red">Upload to Shop</button>
         </form>
-        <button onclick="location.reload()" class="btn btn-back">Exit Admin</button>
+        <button onclick="location.reload()" class="btn btn-back">Close Admin</button>
     </div>
 
-    <div id="shopGrid" class="product-grid"></div>
+    <div id="productGrid" class="product-grid"></div>
 </div>
 
-<div id="modal" class="modal" onclick="closeM()">
-    <div class="m-card" onclick="event.stopPropagation()">
-        <div class="close-m" onclick="closeM()">&times;</div>
+<div id="modal" class="modal" onclick="closeModal()">
+    <div class="m-content" onclick="event.stopPropagation()">
+        <div class="close-m" onclick="closeModal()">&times;</div>
         <div class="slider" id="slider">
             <div class="s-nav">
                 <button class="s-btn" onclick="moveSlide(-1)">&#10094;</button>
                 <button class="s-btn" onclick="moveSlide(1)">&#10095;</button>
             </div>
         </div>
-        <div style="padding: 20px;">
-            <h2 id="m-name"></h2>
-            <h3 id="m-price" style="color: var(--primary); margin: 10px 0;"></h3>
-            <a id="wa-btn" href="#" target="_blank" class="btn btn-wa"><i class="fab fa-whatsapp"></i> Buy on WhatsApp</a>
-            <button class="btn btn-back" onclick="closeM()">Back to Shop</button>
+        <div style="padding: 30px;">
+            <h2 id="mName"></h2>
+            <h2 id="mPrice" style="color: var(--primary); margin: 15px 0;"></h2>
+            <p style="color: #777; font-size: 14px; margin-bottom: 20px;">Quality hand-woven fabric from Tripura. Authentic tribal designs.</p>
+            <a id="waBtn" href="#" target="_blank" class="btn btn-wa"><i class="fab fa-whatsapp"></i> Buy on WhatsApp</a>
+            <button class="btn btn-back" onclick="closeModal()" style="margin-top: 15px;">Go Back</button>
         </div>
     </div>
 </div>
 
-<footer style="text-align: center; padding: 40px; color: #888;">
-    <p>&copy; 2024 Tripura Vastra | Developed by Matindra Tripura</p>
-    <p style="font-size: 10px; cursor: pointer; margin-top: 10px;" onclick="adminIn()">Admin Login</p>
+<footer style="text-align: center; padding: 60px 20px; color: #999; font-size: 13px;">
+    <p>&copy; 2024 Tripura Vastra | Matindra Tripura</p>
+    <p onclick="adminLogin()" style="margin-top: 10px; cursor: pointer; opacity: 0.5;">Admin Access</p>
 </footer>
 
 <script>
-    // --- INSERT YOUR CONFIG HERE ---
+    // --- 1. YOUR FIREBASE CONFIG ---
+    // REPLACE THESE WITH YOUR ACTUAL KEYS
     const firebaseConfig = {
-        apiKey: "YOUR_API_KEY",
-        authDomain: "YOUR_PROJECT.firebaseapp.com",
-        projectId: "YOUR_PROJECT_ID",
-        storageBucket: "YOUR_PROJECT.appspot.com",
-        messagingSenderId: "YOUR_SENDER_ID",
-        appId: "YOUR_APP_ID"
+        apiKey: "AIzaSy...",
+        authDomain: "tripura-vastra.firebaseapp.com",
+        projectId: "tripura-vastra",
+        storageBucket: "tripura-vastra.appspot.com",
+        messagingSenderId: "123456789",
+        appId: "1:123456789:web:abcdef..."
     };
 
-    // Initialize
+    // Initialize Firebase
     firebase.initializeApp(firebaseConfig);
     const db = firebase.firestore();
     const storage = firebase.storage();
-    const statusTxt = document.getElementById('cloud-status');
 
     let allProducts = [];
-    let slideIdx = 0;
+    let slideIndex = 0;
 
-    // Load Data
-    db.collection("products").orderBy("createdAt", "desc").onSnapshot(snap => {
-        allProducts = snap.docs.map(doc => ({id: doc.id, ...doc.data()}));
-        render(allProducts);
-        statusTxt.innerText = "☁️ Online";
+    // --- 2. LOAD DATA FROM CLOUD ---
+    db.collection("products").orderBy("createdAt", "desc").onSnapshot(snapshot => {
+        allProducts = snapshot.docs.map(doc => ({id: doc.id, ...doc.data()}));
+        renderShop();
+        document.getElementById('status-dot').style.background = "#25D366";
+        document.getElementById('status-text').innerText = "Online";
     }, err => {
-        statusTxt.innerText = "⚠️ Offline: " + err.message;
+        console.error(err);
+        document.getElementById('status-text').innerText = "Connection Error";
     });
 
-    function render(data) {
-        const grid = document.getElementById('shopGrid');
-        grid.innerHTML = data.map(p => `
-            <div class="product-card" onclick="openM('${p.id}')">
-                <div class="img-holder"><img src="${p.images[0]}"></div>
-                <div class="p-info">
+    function renderShop() {
+        const grid = document.getElementById('productGrid');
+        grid.innerHTML = allProducts.map(p => `
+            <div class="product-card" onclick="openModal('${p.id}')">
+                <div class="img-box"><img src="${p.images[0]}"></div>
+                <div class="p-details">
                     <h4>${p.name}</h4>
-                    <p style="color:var(--primary); font-weight:bold;">₹${p.price}</p>
+                    <p style="color:var(--primary); font-weight:700;">₹${p.price}</p>
                 </div>
             </div>
         `).join('');
     }
 
-    // Upload Logic
+    // --- 3. UPLOAD LOGIC (STABILITY FIX) ---
     document.getElementById('uploadForm').onsubmit = async (e) => {
         e.preventDefault();
         const btn = document.getElementById('upBtn');
-        const files = document.getElementById('photos').files;
+        const files = document.getElementById('pFiles').files;
         
         try {
-            btn.innerText = "Uploading Photos..."; btn.disabled = true;
+            btn.innerText = "Step 1: Uploading Photos..."; btn.disabled = true;
             const urls = [];
 
-            for(let f of files) {
-                const ref = storage.ref(`products/${Date.now()}_${f.name}`);
-                await ref.put(f);
-                urls.push(await ref.getDownloadURL());
+            for (let i = 0; i < files.length; i++) {
+                btn.innerText = `Uploading Photo ${i+1}/${files.length}...`;
+                const ref = storage.ref().child(`products/${Date.now()}_${files[i].name}`);
+                const uploadTask = await ref.put(files[i]);
+                const downloadURL = await uploadTask.ref.getDownloadURL();
+                urls.push(downloadURL);
             }
 
+            btn.innerText = "Step 2: Saving to Shop...";
             await db.collection("products").add({
-                name: document.getElementById('name').value,
-                price: document.getElementById('price').value,
-                category: document.getElementById('category').value,
+                name: document.getElementById('pName').value,
+                price: document.getElementById('pPrice').value,
+                category: document.getElementById('pCat').value,
                 images: urls,
                 createdAt: firebase.firestore.FieldValue.serverTimestamp()
             });
 
-            alert("Success! Product is live.");
+            alert("✅ Product is now LIVE for all customers!");
             e.target.reset();
         } catch (err) {
-            alert("Error: " + err.message);
+            alert("❌ Error: " + err.message);
         } finally {
-            btn.innerText = "Upload to Global Shop"; btn.disabled = false;
+            btn.innerText = "Upload to Shop"; btn.disabled = false;
         }
     };
 
-    function openM(id) {
-        const p = allProducts.find(x => x.id === id);
-        document.getElementById('m-name').innerText = p.name;
-        document.getElementById('m-price').innerText = "₹" + p.price;
-        document.getElementById('wa-btn').href = `https://wa.me/919863653392?text=I want to buy ${p.name}`;
+    // --- 4. MODAL & SLIDER LOGIC ---
+    function openModal(id) {
+        const p = allProducts.find(item => item.id === id);
+        document.getElementById('mName').innerText = p.name;
+        document.getElementById('mPrice').innerText = "₹" + p.price;
+        document.getElementById('waBtn').href = `https://wa.me/919863653392?text=I'm interested in: ${p.name}`;
         
         const slider = document.getElementById('slider');
-        slider.querySelectorAll('img').forEach(i => i.remove());
+        // Clear old images but keep nav buttons
+        slider.querySelectorAll('img').forEach(img => img.remove());
+        
         p.images.forEach((url, i) => {
             const img = document.createElement('img');
             img.src = url;
@@ -210,107 +215,21 @@
             slider.appendChild(img);
         });
 
-        slideIdx = 0;
+        slideIndex = 0;
         document.getElementById('modal').style.display = 'flex';
         document.body.style.overflow = 'hidden';
     }
 
     function moveSlide(n) {
-        const imgs = document.querySelectorAll('.slider img');
-        if(imgs.length < 2) return;
-        imgs[slideIdx].classList.remove('active');
-        slideIdx = (slideIdx + n + imgs.length) % imgs.length;
-        imgs[slideIdx].classList.add('active');
+        const slides = document.querySelectorAll('.slider img');
+        if(slides.length <= 1) return;
+        slides[slideIndex].classList.remove('active');
+        slideIndex = (slideIndex + n + slides.length) % slides.length;
+        slides[slideIndex].classList.add('active');
     }
 
-    function closeM() { document.getElementById('modal').style.display = 'none'; document.body.style.overflow = 'auto'; }
-    function adminIn() { if(prompt("Pass:") === "admin") document.getElementById('adminArea').style.display = 'block'; }
-    function filterCat(c) {
-        document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
-        event.target.classList.add('active');
-        render(c === 'all' ? allProducts : allProducts.filter(p => p.category === c));
-    }
+    function closeModal() { document.getElementById('modal').style.display = 'none'; document.body.style.overflow = 'auto'; }
+    function adminLogin() { if(prompt("Enter Owner Password:") === "admin") document.getElementById('adminPanel').style.display = 'block'; }
 </script>
 </body>
 </html>
-service cloud.firestore {
-  match /databases/{database}/documents {
-    match /{document=**} {
-      allow read, write: if true;
-    }
-  }
-}
-service firebase.storage {
-  match /b/{bucket}/o {
-    match /{allPaths=**} {
-      allow read, write: if true;
-    }
-  }
-}
-// ... [Keep Firebase Config at the top] ...
-
-    // Improved Upload Logic with Progress Tracking
-    document.getElementById('uploadForm').onsubmit = async (e) => {
-        e.preventDefault();
-        const btn = document.getElementById('upBtn');
-        const files = document.getElementById('photos').files;
-        
-        if (files.length === 0) return alert("Please select photos first!");
-
-        try {
-            btn.disabled = true;
-            const urls = [];
-
-            for (let i = 0; i < files.length; i++) {
-                const f = files[i];
-                // Show progress in the button
-                btn.innerText = `Uploading Photo ${i+1} of ${files.length}...`;
-                
-                const fileName = `${Date.now()}_${f.name}`;
-                const ref = storage.ref().child(`products/${fileName}`);
-                
-                // Start the upload task
-                const uploadTask = ref.put(f);
-
-                // This part waits for the upload to actually finish
-                await new Promise((resolve, reject) => {
-                    uploadTask.on('state_changed', 
-                        (snapshot) => {
-                            // You can see the percentage here if you check the console
-                            let progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-                            console.log('Upload is ' + progress + '% done');
-                        }, 
-                        (error) => {
-                            console.error("Upload Error:", error);
-                            reject(error);
-                        }, 
-                        async () => {
-                            const downloadURL = await uploadTask.snapshot.ref.getDownloadURL();
-                            urls.push(downloadURL);
-                            resolve();
-                        }
-                    );
-                });
-            }
-
-            btn.innerText = "Saving to Database...";
-
-            // Save text details to Firestore
-            await db.collection("products").add({
-                name: document.getElementById('name').value,
-                price: document.getElementById('price').value,
-                category: document.getElementById('category').value,
-                images: urls,
-                createdAt: firebase.firestore.FieldValue.serverTimestamp()
-            });
-
-            alert("✅ Success! Product is now visible on all devices.");
-            e.target.reset();
-        } catch (err) {
-            console.error("Full Error details:", err);
-            alert("❌ Upload Failed: " + err.message + "\n\nCheck if your Firebase Rules are set to 'true' and your GitHub domain is authorized.");
-        } finally {
-            btn.innerText = "Upload to Global Shop";
-            btn.disabled = false;
-        }
-    };
