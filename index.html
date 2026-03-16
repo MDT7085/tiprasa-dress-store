@@ -11,8 +11,8 @@
         :root {
             --primary: #8e2de2;
             --secondary: #4a00e0;
-            --accent: #ff4757;
             --success: #25D366;
+            --upi-blue: #0971b8;
             --dark: #2f3542;
             --light: #f1f2f6;
             --white: #ffffff;
@@ -22,87 +22,61 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Poppins', sans-serif; background-color: var(--light); color: var(--dark); line-height: 1.6; }
 
-        /* --- Header & Branding --- */
-        header {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: var(--white);
-            padding: 60px 20px;
-            text-align: center;
-            box-shadow: var(--shadow);
-        }
+        header { background: linear-gradient(135deg, var(--primary), var(--secondary)); color: var(--white); padding: 60px 20px; text-align: center; }
         .shop-name { font-family: 'Playfair Display', serif; font-size: 2.8rem; margin-bottom: 10px; }
-        .address { font-weight: 300; margin-bottom: 25px; opacity: 0.9; }
-        .btn-maps {
-            background: var(--white); color: var(--secondary);
-            padding: 12px 25px; border-radius: 30px; text-decoration: none;
-            font-weight: 600; transition: 0.3s; display: inline-block;
-        }
-
-        /* --- Search & Filters --- */
+        
         .controls { max-width: 1100px; margin: -40px auto 40px; background: var(--white); padding: 30px; border-radius: 20px; box-shadow: var(--shadow); position: relative; z-index: 10; }
         .search-bar { width: 100%; padding: 15px; border: 2px solid #eee; border-radius: 12px; margin-bottom: 20px; font-size: 1rem; outline: none; }
         .categories { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
-        .cat-btn { padding: 8px 20px; border: none; background: #f0f0f0; border-radius: 20px; cursor: pointer; transition: 0.3s; font-weight: 500; }
+        .cat-btn { padding: 8px 20px; border: none; background: #f0f0f0; border-radius: 20px; cursor: pointer; transition: 0.3s; }
         .cat-btn.active { background: var(--primary); color: white; }
 
-        /* --- Product Grid --- */
         .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
         .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 30px; }
         .product-card { background: var(--white); border-radius: 20px; overflow: hidden; transition: 0.4s; box-shadow: 0 5px 15px rgba(0,0,0,0.05); position: relative; }
-        .product-card:hover { transform: translateY(-10px); box-shadow: var(--shadow); }
         .img-container { height: 350px; overflow: hidden; }
-        .product-card img { width: 100%; height: 100%; object-fit: cover; transition: 0.5s; }
-        .product-card:hover img { transform: scale(1.1); }
+        .product-card img { width: 100%; height: 100%; object-fit: cover; }
         .product-info { padding: 20px; text-align: center; }
         .price { color: var(--primary); font-weight: 700; font-size: 1.3rem; margin: 5px 0; }
 
-        /* --- Admin Badges --- */
+        /* Admin Controls */
         .admin-controls { position: absolute; top: 10px; right: 10px; display: flex; gap: 5px; z-index: 5; }
-        .edit-badge { background: #ffa502; color: white; padding: 5px 10px; border-radius: 5px; cursor: pointer; font-size: 0.8rem; border: none; }
-        .delete-badge { background: #ff4757; color: white; padding: 5px 10px; border-radius: 5px; cursor: pointer; font-size: 0.8rem; border: none; }
+        .edit-badge { background: #ffa502; color: white; padding: 5px 10px; border-radius: 5px; cursor: pointer; border: none; font-size: 0.7rem; }
+        .delete-badge { background: #ff4757; color: white; padding: 5px 10px; border-radius: 5px; cursor: pointer; border: none; font-size: 0.7rem; }
 
-        /* --- Modals --- */
         .modal { position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.8); display: none; justify-content: center; align-items: center; z-index: 1000; padding: 20px; }
-        .modal-content { background: white; width: 100%; max-width: 500px; border-radius: 15px; padding: 30px; position: relative; }
-        .details-content { max-width: 900px; display: grid; grid-template-columns: 1fr 1fr; padding: 0; overflow: hidden; }
-        .close-modal { position: absolute; top: 15px; right: 20px; font-size: 25px; cursor: pointer; color: #333; }
+        .modal-content { background: white; width: 100%; max-width: 900px; border-radius: 15px; display: grid; grid-template-columns: 1fr 1fr; overflow: hidden; position: relative; }
+        .close-modal { position: absolute; top: 15px; right: 20px; font-size: 25px; cursor: pointer; color: #333; z-index: 10; }
 
-        /* --- Buttons --- */
         .btn-main { background: var(--dark); color: white; border: none; padding: 12px; border-radius: 8px; cursor: pointer; width: 100%; font-weight: 600; margin-top: 10px; text-decoration: none; display: inline-block; text-align: center; }
         .btn-wa { background: var(--success); color: white; }
-        .btn-admin { background: var(--primary); }
+        .btn-upi { background: var(--upi-blue); color: white; }
 
-        /* --- Admin Form --- */
         .admin-section { background: white; padding: 30px; border-radius: 15px; margin-top: 40px; display: none; border: 2px dashed var(--primary); }
-        input, select, textarea { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 8px; font-family: inherit; }
+        input, select, textarea { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 8px; }
 
-        /* --- Footer --- */
         footer { background: #1a1a1a; color: #fff; padding: 50px 20px; text-align: center; margin-top: 60px; }
-        .dev-credit { margin-top: 20px; font-size: 0.9rem; letter-spacing: 1px; color: #aaa; }
+        .dev-credit { margin-top: 20px; font-size: 0.8rem; letter-spacing: 1px; color: #aaa; border-top: 1px solid #333; padding-top: 20px; }
         .dev-credit b { color: var(--primary); }
 
-        @media (max-width: 768px) { .details-content { grid-template-columns: 1fr; } }
+        @media (max-width: 768px) { .modal-content { grid-template-columns: 1fr; } .img-container { height: 250px; } }
     </style>
 </head>
 <body>
 
 <header>
-    <h1 class="shop-name">Unique Gift – Traditional Clothing Shop</h1>
-    <p class="address"><i class="fas fa-map-marker-alt"></i> 123 Heritage Street, Cultural Zone, Kolkata, India</p>
-    <a href="https://goo.gl/maps/example" target="_blank" class="btn-maps">View on Google Maps</a>
+    <h1 class="shop-name">Unique Gift</h1>
+    <p><i class="fas fa-map-marker-alt"></i> Heritage Street, Kolkata, India</p>
 </header>
 
 <div class="container">
     <div class="controls">
-        <input type="text" id="searchInput" class="search-bar" placeholder="Search products by name...">
+        <input type="text" id="searchInput" class="search-bar" placeholder="Search products...">
         <div class="categories" id="categoryFilters">
             <button class="cat-btn active" data-cat="all">All</button>
             <button class="cat-btn" data-cat="Saree">Saree</button>
             <button class="cat-btn" data-cat="Kurti">Kurti</button>
             <button class="cat-btn" data-cat="Traditional Dress">Traditional Dress</button>
-            <button class="cat-btn" data-cat="Ethnic Wear">Ethnic Wear</button>
-            <button class="cat-btn" data-cat="Accessories">Accessories</button>
-            <button class="cat-btn" data-cat="Gift Items">Gift Items</button>
         </div>
     </div>
 
@@ -113,66 +87,46 @@
         <form id="productForm">
             <input type="hidden" id="editId">
             <input type="text" id="pName" placeholder="Product Name" required>
-            <select id="pCat">
-                <option value="Saree">Saree</option>
-                <option value="Kurti">Kurti</option>
-                <option value="Traditional Dress">Traditional Dress</option>
-                <option value="Ethnic Wear">Ethnic Wear</option>
-                <option value="Accessories">Accessories</option>
-                <option value="Gift Items">Gift Items</option>
-            </select>
-            <input type="text" id="pPrice" placeholder="Price (e.g. ₹1,999)" required>
+            <select id="pCat"><option value="Saree">Saree</option><option value="Kurti">Kurti</option></select>
+            <input type="number" id="pPrice" placeholder="Price Amount (Numbers only, e.g. 1500)" required>
             <textarea id="pDesc" placeholder="Description" rows="3" required></textarea>
             <input type="text" id="pImg" placeholder="Image URL" required>
-            <button type="submit" class="btn-main btn-admin">Save Product</button>
+            <button type="submit" class="btn-main" style="background:var(--primary)">Save Product</button>
             <button type="button" onclick="hideAdmin()" class="btn-main" style="background:#ccc; color:#333;">Close Panel</button>
         </form>
     </div>
 </div>
 
-<div id="loginModal" class="modal">
-    <div class="modal-content">
-        <span class="close-modal" onclick="closeModal('loginModal')">&times;</span>
-        <h3>Admin Login</h3>
-        <input type="password" id="adminPass" placeholder="Enter Admin Password">
-        <button class="btn-main btn-admin" onclick="checkLogin()">Login</button>
-    </div>
-</div>
-
 <div id="detailsModal" class="modal">
-    <div class="modal-content details-content">
+    <div class="modal-content">
         <span class="close-modal" onclick="closeModal('detailsModal')">&times;</span>
         <img id="detImg" src="" style="width:100%; height:100%; object-fit:cover;">
         <div style="padding:30px;">
             <h2 id="detName"></h2>
             <p id="detPrice" class="price"></p>
             <p id="detDesc" style="margin:15px 0; color:#666;"></p>
-            <a href="#" id="waLink" target="_blank" class="btn-main btn-wa"><i class="fab fa-whatsapp"></i> Chat with Owner</a>
-            <a href="tel:+91XXXXXXXXXX" class="btn-main"><i class="fas fa-phone"></i> Call Now</a>
+            <a href="#" id="upiLink" class="btn-main btn-upi"><i class="fas fa-mobile-alt"></i> Pay with UPI (GPay/PhonePe)</a>
+            <a href="#" id="waLink" target="_blank" class="btn-main btn-wa"><i class="fab fa-whatsapp"></i> WhatsApp Owner</a>
         </div>
     </div>
 </div>
 
 <footer>
-    <p><strong>Unique Gift – Traditional Clothing Shop</strong></p>
-    <p>Address: 123 Heritage Street, Kolkata | Phone: +91 XXXXXXXXXX</p>
-    <div class="dev-credit">
-        WEBSITE DESIGN AND DEVELOP BY <b>MATINDRA TRIPURA</b>
-    </div>
-    <p style="margin-top:20px; font-size:0.7rem; opacity:0.5; cursor:pointer;" onclick="showLogin()">Admin Login</p>
+    <p>Unique Gift – Traditional Clothing Shop</p>
+    <div class="dev-credit">WEBSITE DESIGN AND DEVELOP BY <b>MATINDRA TRIPURA</b></div>
+    <p style="margin-top:20px; font-size:0.7rem; opacity:0.3; cursor:pointer;" onclick="promptLogin()">Admin Login</p>
 </footer>
 
 <script>
-    // --- SETTINGS ---
-    const OWNER_MOBILE = "91XXXXXXXXXX"; // REPLACED WITH YOUR NUMBER
-    const ADMIN_PASSWORD = "admin"; // CHANGE THIS
+    const OWNER_MOBILE = "919863653392"; 
+    const OWNER_UPI = "matindratripura911-2@okicici";
+    const ADMIN_PASS = "admin";
 
-    let products = JSON.parse(localStorage.getItem('unique_gift_prods')) || [
-        { id: 1, name: 'Traditional Silk Saree', cat: 'Saree', price: '₹4,999', desc: 'Beautiful handwoven silk saree.', img: 'https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=500' }
+    let products = JSON.parse(localStorage.getItem('unique_gift_db')) || [
+        { id: 1, name: 'Traditional Silk Saree', cat: 'Saree', price: '4999', desc: 'Elegant handwoven saree.', img: 'https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=500' }
     ];
     let isLogged = false;
 
-    // --- Core Logic ---
     function render(cat = 'all', search = '') {
         const grid = document.getElementById('productGrid');
         grid.innerHTML = '';
@@ -180,24 +134,37 @@
         .forEach(p => {
             grid.innerHTML += `
                 <div class="product-card">
-                    ${isLogged ? `
-                        <div class="admin-controls">
-                            <button class="edit-badge" onclick="editProduct(${p.id})">Edit</button>
-                            <button class="delete-badge" onclick="deleteProduct(${p.id})">Delete</button>
-                        </div>
-                    ` : ''}
+                    ${isLogged ? `<div class="admin-controls">
+                        <button class="edit-badge" onclick="editProduct(${p.id})">Edit</button>
+                        <button class="delete-badge" onclick="deleteProduct(${p.id})">Delete</button>
+                    </div>` : ''}
                     <div class="img-container"><img src="${p.img}"></div>
                     <div class="product-info">
                         <h3>${p.name}</h3>
-                        <p class="price">${p.price}</p>
-                        <button class="btn-main" onclick="viewDetails(${p.id})">View Details</button>
+                        <p class="price">₹${p.price}</p>
+                        <button class="btn-main" onclick="viewDetails(${p.id})">Details & Buy</button>
                     </div>
-                </div>
-            `;
+                </div>`;
         });
     }
 
-    // --- CRUD ---
+    function viewDetails(id) {
+        const p = products.find(prod => prod.id === id);
+        document.getElementById('detImg').src = p.img;
+        document.getElementById('detName').innerText = p.name;
+        document.getElementById('detPrice').innerText = "₹" + p.price;
+        document.getElementById('detDesc').innerText = p.desc;
+        
+        // WhatsApp Link
+        const msg = encodeURIComponent(`Hello Matindra, I want to buy: ${p.name} for ₹${p.price}`);
+        document.getElementById('waLink').href = `https://wa.me/${OWNER_MOBILE}?text=${msg}`;
+        
+        // UPI Link (Works on Mobile)
+        document.getElementById('upiLink').href = `upi://pay?pa=${OWNER_UPI}&pn=UniqueGift&am=${p.price}&cu=INR&tn=Order_${p.id}`;
+        
+        document.getElementById('detailsModal').style.display = 'flex';
+    }
+
     document.getElementById('productForm').onsubmit = (e) => {
         e.preventDefault();
         const id = document.getElementById('editId').value;
@@ -209,82 +176,28 @@
             desc: document.getElementById('pDesc').value,
             img: document.getElementById('pImg').value
         };
-
-        if(id) {
-            const index = products.findIndex(p => p.id == id);
-            products[index] = data;
-        } else {
-            products.push(data);
-        }
-
-        localStorage.setItem('unique_gift_prods', JSON.stringify(products));
-        render();
-        hideAdmin();
+        if(id) { products[products.findIndex(p => p.id == id)] = data; } 
+        else { products.push(data); }
+        localStorage.setItem('unique_gift_db', JSON.stringify(products));
+        render(); hideAdmin();
     };
 
-    function deleteProduct(id) {
-        if(confirm('Delete this product?')) {
-            products = products.filter(p => p.id !== id);
-            localStorage.setItem('unique_gift_prods', JSON.stringify(products));
-            render();
-        }
-    }
-
+    function deleteProduct(id) { if(confirm('Delete?')) { products = products.filter(p => p.id !== id); localStorage.setItem('unique_gift_db', JSON.stringify(products)); render(); } }
+    
     function editProduct(id) {
         const p = products.find(prod => prod.id === id);
         document.getElementById('editId').value = p.id;
         document.getElementById('pName').value = p.name;
-        document.getElementById('pCat').value = p.cat;
         document.getElementById('pPrice').value = p.price;
         document.getElementById('pDesc').value = p.desc;
         document.getElementById('pImg').value = p.img;
-        document.getElementById('formTitle').innerText = "Edit Product";
         document.getElementById('adminPanel').style.display = 'block';
-        document.getElementById('adminPanel').scrollIntoView();
     }
 
-    // --- UI Helpers ---
-    function viewDetails(id) {
-        const p = products.find(prod => prod.id === id);
-        document.getElementById('detImg').src = p.img;
-        document.getElementById('detName').innerText = p.name;
-        document.getElementById('detPrice').innerText = p.price;
-        document.getElementById('detDesc').innerText = p.desc;
-        document.getElementById('waLink').href = `https://wa.me/${OWNER_MOBILE}?text=Hello! I am interested in ${p.name} (${p.price}). Please share more details.`;
-        document.getElementById('detailsModal').style.display = 'flex';
-    }
-
-    function showLogin() { document.getElementById('loginModal').style.display = 'flex'; }
-    function checkLogin() {
-        if(document.getElementById('adminPass').value === ADMIN_PASSWORD) {
-            isLogged = true;
-            closeModal('loginModal');
-            document.getElementById('adminPanel').style.display = 'block';
-            render();
-        } else { alert('Wrong Password'); }
-    }
-
-    function hideAdmin() {
-        document.getElementById('adminPanel').style.display = 'none';
-        document.getElementById('productForm').reset();
-        document.getElementById('editId').value = '';
-        document.getElementById('formTitle').innerText = "Add New Product";
-    }
-
+    function promptLogin() { if(prompt("Password:") === ADMIN_PASS) { isLogged = true; document.getElementById('adminPanel').style.display = 'block'; render(); } }
+    function hideAdmin() { document.getElementById('adminPanel').style.display = 'none'; document.getElementById('productForm').reset(); }
     function closeModal(id) { document.getElementById(id).style.display = 'none'; }
-
-    // --- Listeners ---
-    document.getElementById('searchInput').oninput = (e) => render('all', e.target.value);
-    document.getElementById('categoryFilters').onclick = (e) => {
-        if(e.target.classList.contains('cat-btn')) {
-            document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
-            e.target.classList.add('active');
-            render(e.target.dataset.cat);
-        }
-    };
-
     render();
 </script>
-
 </body>
 </html>
