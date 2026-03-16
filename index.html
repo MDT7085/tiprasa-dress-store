@@ -298,3 +298,88 @@
 </script>
 </body>
 </html>
+<nav>
+    <div class="logo">TRIPURA VASTRA</div>
+    <div id="status" style="font-size: 12px; padding: 5px 10px; border-radius: 20px; background: #eee;">
+        <i class="fas fa-sync fa-spin"></i> Initializing Cloud...
+    </div>
+</nav>
+
+<script>
+    // 1. YOUR REAL CONFIG (Make sure these are your actual keys from Firebase)
+    const firebaseConfig = {
+      apiKey: "AIzaSy...", 
+      authDomain: "tripura-vastra.firebaseapp.com",
+      projectId: "tripura-vastra",
+      storageBucket: "tripura-vastra.appspot.com",
+      messagingSenderId: "123456789",
+      appId: "1:123456789:web:abcdef..."
+    };
+
+    // Initialize Firebase with Error Catching
+    try {
+        firebase.initializeApp(firebaseConfig);
+        var db = firebase.firestore();
+        var storage = firebase.storage();
+        document.getElementById('status').innerHTML = '<i class="fas fa-check-circle" style="color:green"></i> Cloud Connected';
+    } catch (e) {
+        document.getElementById('status').innerHTML = '<i class="fas fa-exclamation-triangle" style="color:red"></i> Config Error';
+        console.error("Firebase Init Error:", e);
+    }
+
+    const OWNER_MOBILE = "919863653392"; 
+    const OWNER_UPI = "matindratripura911-2@okicici";
+
+    // 2. UPDATED UPLOAD LOGIC
+    document.getElementById('productForm').onsubmit = async (e) => {
+        e.preventDefault();
+        const btn = document.getElementById('saveBtn');
+        const statusDiv = document.getElementById('status');
+        
+        try {
+            btn.innerText = "Connecting..."; btn.disabled = true;
+            statusDiv.innerHTML = "Uploading Images...";
+
+            const files = document.getElementById('pFiles').files;
+            if (files.length === 0) throw new Error("Please select at least one photo.");
+
+            const imageUrls = [];
+
+            // Upload images one by one
+            for(let file of files) {
+                const fileName = Date.now() + "_" + file.name;
+                const ref = storage.ref().child('products/' + fileName);
+                
+                // Uploading...
+                const snapshot = await ref.put(file);
+                // Get URL
+                const url = await snapshot.ref.getDownloadURL();
+                imageUrls.push(url);
+            }
+
+            statusDiv.innerHTML = "Saving Details...";
+
+            // Save to Firestore
+            await db.collection("products").add({
+                name: document.getElementById('pName').value,
+                price: document.getElementById('pPrice').value,
+                cat: document.getElementById('pCat').value,
+                images: imageUrls,
+                createdAt: firebase.firestore.FieldValue.serverTimestamp()
+            });
+
+            alert("✅ Success! Product is now live on all devices.");
+            statusDiv.innerHTML = '<i class="fas fa-check-circle" style="color:green"></i> Connected';
+            e.target.reset();
+        } catch (error) {
+            console.error("Full Error Info:", error);
+            alert("❌ Upload Failed: " + error.message);
+            statusDiv.innerHTML = '<i class="fas fa-times-circle" style="color:red"></i> Upload Error';
+        } finally {
+            btn.innerText = "Upload to Cloud";
+            btn.disabled = false;
+        }
+    };
+
+    // ... (Keep the rest of your Render and viewProduct functions) ...
+</script>
