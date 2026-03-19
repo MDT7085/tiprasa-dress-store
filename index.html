@@ -1,282 +1,95 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tripura Heritage Wear | Tiprasa Kanmung-Chumung</title>
-    
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-
-    <style>
-        /* --- CSS STYLES --- */
-        :root {
-            --maroon: #630d0d;
-            --gold: #d4af37;
-            --cream: #fdfaf5;
-            --dark: #222;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 0;
-            background-color: var(--cream);
-            color: var(--dark);
-        }
-
-        /* Navigation */
-        nav {
-            background: #fff;
-            padding: 15px 5%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-
-        .brand-name {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: var(--maroon);
-        }
-
-        /* Hero Section */
-        .hero {
-            height: 40vh;
-            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1582738411706-bfc8e691d1c2?auto=format&fit=crop&q=80&w=1000');
-            background-size: cover;
-            background-position: center;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            color: white;
-            text-align: center;
-            padding: 20px;
-        }
-
-        /* Product Grid */
-        .container {
-            padding: 40px 5%;
-            max-width: 1200px;
-            margin: auto;
-        }
-
-        .product-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 25px;
-        }
-
-        .card {
-            background: white;
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-            transition: transform 0.3s ease;
-        }
-
-        .card:hover { transform: translateY(-5px); }
-
-        .card img {
-            width: 100%;
-            height: 300px;
-            object-fit: cover;
-        }
-
-        .card-info { padding: 20px; text-align: center; }
-        
-        .price { font-size: 1.3rem; font-weight: bold; color: var(--maroon); margin: 10px 0; }
-
-        /* Buttons */
-        .btn-buy {
-            background: #28a745;
-            color: white;
-            border: none;
-            padding: 10px 25px;
-            border-radius: 25px;
-            cursor: pointer;
-            width: 100%;
-            font-size: 1rem;
-        }
-
-        .admin-btn {
-            background: var(--maroon);
-            color: white;
-            border: none;
-            padding: 8px 15px;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-
-        /* Admin Modal */
-        #adminModal {
-            display: none;
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.8);
-            z-index: 2000;
-        }
-
-        .modal-content {
-            background: white;
-            width: 90%;
-            max-width: 400px;
-            margin: 10% auto;
-            padding: 30px;
-            border-radius: 10px;
-        }
-
-        .modal-content input {
-            width: 100%;
-            padding: 10px;
-            margin: 10px 0;
-            box-sizing: border-box;
-        }
-
-        /* WhatsApp Button */
-        .whatsapp-btn {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            background: #25d366;
-            color: white;
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 30px;
-            text-decoration: none;
-            box-shadow: 2px 5px 15px rgba(0,0,0,0.3);
-            z-index: 1000;
-        }
-
-        @media (max-width: 600px) {
-            .hero h1 { font-size: 1.8rem; }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Shop</title>
+  <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
+<body class="bg-gray-100">
 
-    <nav>
-        <div class="brand-name">Tripura Heritage Wear</div>
-        <button class="admin-btn" onclick="toggleModal(true)">Admin Panel</button>
-    </nav>
+  <!-- Navbar -->
+  <nav class="bg-white shadow p-4 flex justify-between">
+    <h1 class="text-xl font-bold">MyShop</h1>
+    <button onclick="viewCart()">Cart (<span id="cart-count">0</span>)</button>
+  </nav>
 
-    <header class="hero">
-        <h1>Tripura Vastra</h1>
-        <p>Tiprasa Kanmung-Chumung: Traditional Excellence</p>
-    </header>
+  <!-- Products -->
+  <div class="p-6 grid grid-cols-1 md:grid-cols-3 gap-6" id="product-list"></div>
 
-    <div class="container">
-        <h2 style="text-align: center; color: var(--maroon);">Our Collection</h2>
-        <div id="productGrid" class="product-grid">
-            </div>
+  <!-- Cart Modal -->
+  <div id="cart-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+    <div class="bg-white p-6 rounded w-96">
+      <h2 class="text-lg font-bold mb-4">Your Cart</h2>
+      <ul id="cart-items"></ul>
+      <p class="mt-4 font-bold">Total: ₹<span id="total">0</span></p>
+      <button onclick="checkout()" class="mt-4 bg-green-500 text-white px-4 py-2 rounded">Checkout</button>
+      <button onclick="closeCart()" class="mt-2 text-red-500">Close</button>
     </div>
+  </div>
 
-    <div id="adminModal">
-        <div class="modal-content">
-            <h3>Add New Product</h3>
-            <input type="text" id="pName" placeholder="Product Name (e.g. Rignai)">
-            <input type="number" id="pPrice" placeholder="Price in ₹">
-            <p style="font-size: 12px; color: #666;">Upload Product Image:</p>
-            <input type="file" id="pImage" accept="image/*">
-            <button class="btn-buy" style="background: var(--maroon);" onclick="addProduct()">Save Product</button>
-            <button class="btn-buy" style="background: #999; margin-top: 10px;" onclick="toggleModal(false)">Cancel</button>
-        </div>
-    </div>
+<script>
+const products = [
+  { id: 1, name: "T-Shirt", price: 499 },
+  { id: 2, name: "Shoes", price: 1299 },
+  { id: 3, name: "Watch", price: 1999 }
+];
 
-    <a href="https://wa.me/91XXXXXXXXXX" class="whatsapp-btn" target="_blank">
-        <i class="fab fa-whatsapp"></i>
-    </a>
+let cart = [];
 
-    <script>
-        /* --- JAVASCRIPT LOGIC --- */
+function renderProducts() {
+  const list = document.getElementById("product-list");
+  list.innerHTML = "";
+  products.forEach(p => {
+    list.innerHTML += `
+      <div class="bg-white p-4 rounded shadow">
+        <h3 class="font-bold">${p.name}</h3>
+        <p>₹${p.price}</p>
+        <button onclick="addToCart(${p.id})" class="mt-2 bg-blue-500 text-white px-3 py-1 rounded">Add to Cart</button>
+      </div>`;
+  });
+}
 
-        // 1. Initial Load
-        document.addEventListener('DOMContentLoaded', renderProducts);
+function addToCart(id) {
+  const product = products.find(p => p.id === id);
+  cart.push(product);
+  updateCart();
+}
 
-        function toggleModal(show) {
-            document.getElementById('adminModal').style.display = show ? 'block' : 'none';
-        }
+function updateCart() {
+  document.getElementById("cart-count").innerText = cart.length;
+}
 
-        // 2. Add Product to LocalStorage
-        function addProduct() {
-            const name = document.getElementById('pName').value;
-            const price = document.getElementById('pPrice').value;
-            const imageFile = document.getElementById('pImage').files[0];
+function viewCart() {
+  const modal = document.getElementById("cart-modal");
+  const list = document.getElementById("cart-items");
+  const total = document.getElementById("total");
 
-            if (!name || !price || !imageFile) {
-                alert("Please fill all fields and select an image.");
-                return;
-            }
+  list.innerHTML = "";
+  let sum = 0;
 
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                const products = JSON.parse(localStorage.getItem('heritageProducts')) || [];
-                products.push({
-                    id: Date.now(),
-                    name: name,
-                    price: price,
-                    image: e.target.result // Base64 string
-                });
-                localStorage.setItem('heritageProducts', JSON.stringify(products));
-                
-                // Clear and refresh
-                toggleModal(false);
-                renderProducts();
-                alert("Product added successfully!");
-            };
-            reader.readAsDataURL(imageFile);
-        }
+  cart.forEach(item => {
+    list.innerHTML += `<li>${item.name} - ₹${item.price}</li>`;
+    sum += item.price;
+  });
 
-        // 3. Render Products to UI
-        function renderProducts() {
-            const grid = document.getElementById('productGrid');
-            const products = JSON.parse(localStorage.getItem('heritageProducts')) || [];
+  total.innerText = sum;
+  modal.classList.remove("hidden");
+}
 
-            if (products.length === 0) {
-                grid.innerHTML = "<p style='grid-column: 1/-1; text-align: center;'>No products added yet. Use the Admin Panel to add items.</p>";
-                return;
-            }
+function closeCart() {
+  document.getElementById("cart-modal").classList.add("hidden");
+}
 
-            grid.innerHTML = products.map(p => `
-                <div class="card">
-                    <img src="${p.image}" alt="${p.name}">
-                    <div class="card-info">
-                        <h3>${p.name}</h3>
-                        <p class="price">₹${p.price}</p>
-                        <button class="btn-buy" onclick="handlePayment('${p.price}', '${p.name}')">
-                            <i class="fas fa-shopping-cart"></i> Buy Now
-                        </button>
-                        <button onclick="deleteProduct(${p.id})" style="margin-top:10px; border:none; background:none; color:red; cursor:pointer; font-size:12px;">Remove Item</button>
-                    </div>
-                </div>
-            `).join('');
-        }
+function checkout() {
+  alert("Order placed successfully!");
+  cart = [];
+  updateCart();
+  closeCart();
+}
 
-        // 4. UPI Payment Logic
-        function handlePayment(amt, itemName) {
-            const upiID = "YOUR_UPI_ID@okaxis"; // Replace with your actual UPI ID
-            const upiUrl = `upi://pay?pa=${upiID}&pn=TripuraHeritageWear&am=${amt}&tn=Order_${itemName.replace(/\s/g,'_')}&cu=INR`;
-            
-            // Try to open UPI app
-            window.location.href = upiUrl;
-        }
+renderProducts();
+</script>
 
-        // 5. Delete Product
-        function deleteProduct(id) {
-            if(confirm("Delete this product?")) {
-                let products = JSON.parse(localStorage.getItem('heritageProducts')) || [];
-                products = products.filter(p => p.id !== id);
-                localStorage.setItem('heritageProducts', JSON.stringify(products));
-                renderProducts();
-            }
-        }
-    </script>
 </body>
 </html>
