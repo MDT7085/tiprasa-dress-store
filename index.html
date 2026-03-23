@@ -1,187 +1,105 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>My E-Commerce</title>
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flipkart Admin Panel</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
-<body>
+<body class="bg-gray-100 font-sans">
 
-<!-- HEADER -->
-<header>
-  <div class="logo">MyShop</div>
-  <nav>
-    <a href="#">Home</a>
-    <a href="#">Shop</a>
-    <a href="#">About</a>
-    <a href="#">Contact</a>
-  </nav>
-  <div class="cart">🛒</div>
-</header>
+    <div class="flex h-screen overflow-hidden">
+        <aside class="w-64 bg-blue-700 text-white flex-shrink-0 hidden md:flex flex-col">
+            <div class="p-6 text-2xl font-bold border-b border-blue-600">
+                Flipkart Admin
+            </div>
+            <nav class="flex-grow p-4 space-y-2">
+                <a href="#" class="block p-3 bg-blue-800 rounded-lg flex items-center"><i class="fas fa-tachometer-alt mr-3"></i> Dashboard</a>
+                <a href="#" class="block p-3 hover:bg-blue-600 rounded-lg flex items-center transition"><i class="fas fa-box mr-3"></i> Products</a>
+                <a href="#" class="block p-3 hover:bg-blue-600 rounded-lg flex items-center transition"><i class="fas fa-shopping-cart mr-3"></i> Orders</a>
+                <a href="#" class="block p-3 hover:bg-blue-600 rounded-lg flex items-center transition"><i class="fas fa-users mr-3"></i> Customers</a>
+                <a href="#" class="block p-3 hover:bg-blue-600 rounded-lg flex items-center transition"><i class="fas fa-ad mr-3"></i> Offers & Banners</a>
+            </nav>
+            <div class="p-4 border-t border-blue-600">
+                <button class="w-full bg-red-500 hover:bg-red-600 p-2 rounded text-sm transition">Logout</button>
+            </div>
+        </aside>
 
-<!-- HERO -->
-<section class="hero">
-  <h1>Big Sale Up To 50% Off</h1>
-  <p>Shop the latest trends now</p>
-  <button>Shop Now</button>
-</section>
+        <main class="flex-1 overflow-y-auto">
+            <header class="bg-white shadow-sm p-4 flex justify-between items-center sticky top-0">
+                <h2 class="text-xl font-semibold text-gray-800">Product Management</h2>
+                <div class="flex items-center space-x-4">
+                    <span class="text-gray-600 italic text-sm">Welcome, Admin</span>
+                    <img src="https://ui-avatars.com/api/?name=Admin&background=2874f0&color=fff" class="w-10 h-10 rounded-full border">
+                </div>
+            </header>
 
-<!-- PRODUCTS -->
-<section class="products">
-  <h2>Featured Products</h2>
-  <div class="product-grid">
+            <div class="p-6">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                    <div class="bg-white p-6 rounded-xl shadow-sm border-l-4 border-blue-500">
+                        <p class="text-gray-500 text-sm font-medium">Total Sales</p>
+                        <h3 class="text-2xl font-bold">₹12,45,000</h3>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl shadow-sm border-l-4 border-yellow-500">
+                        <p class="text-gray-500 text-sm font-medium">Pending Orders</p>
+                        <h3 class="text-2xl font-bold">48</h3>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl shadow-sm border-l-4 border-green-500">
+                        <p class="text-gray-500 text-sm font-medium">Active Products</p>
+                        <h3 class="text-2xl font-bold">1,240</h3>
+                    </div>
+                </div>
 
-    <div class="product">
-      <img src="https://via.placeholder.com/200">
-      <h3>T-Shirt</h3>
-      <p>₹499</p>
-      <button>Add to Cart</button>
+                <div class="bg-white rounded-xl shadow-sm p-6 mb-8">
+                    <div class="flex justify-between items-center mb-6">
+                        <h3 class="text-lg font-bold text-gray-800">Add New Product</h3>
+                        <button class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">+ Add Product</button>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                        <input type="text" placeholder="Product Name" class="border p-2 rounded-lg w-full focus:ring-2 focus:ring-blue-400 outline-none">
+                        <select class="border p-2 rounded-lg w-full focus:ring-2 focus:ring-blue-400 outline-none">
+                            <option>Category</option>
+                            <option>Electronics</option>
+                            <option>Fashion</option>
+                            <option>Home</option>
+                        </select>
+                        <input type="number" placeholder="Price (₹)" class="border p-2 rounded-lg w-full focus:ring-2 focus:ring-blue-400 outline-none">
+                        <input type="number" placeholder="Stock Quantity" class="border p-2 rounded-lg w-full focus:ring-2 focus:ring-blue-400 outline-none">
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-sm overflow-hidden border">
+                    <table class="w-full text-left border-collapse">
+                        <thead class="bg-gray-50 border-b">
+                            <tr>
+                                <th class="p-4 font-semibold text-gray-700">Image</th>
+                                <th class="p-4 font-semibold text-gray-700">Product Name</th>
+                                <th class="p-4 font-semibold text-gray-700">Category</th>
+                                <th class="p-4 font-semibold text-gray-700">Price</th>
+                                <th class="p-4 font-semibold text-gray-700">Stock</th>
+                                <th class="p-4 font-semibold text-gray-700">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y">
+                            <tr>
+                                <td class="p-4"><div class="w-12 h-12 bg-gray-200 rounded"></div></td>
+                                <td class="p-4 font-medium">iPhone 15 Pro</td>
+                                <td class="p-4 text-gray-600">Electronics</td>
+                                <td class="p-4 font-bold">₹1,29,900</td>
+                                <td class="p-4"><span class="px-2 py-1 bg-green-100 text-green-700 rounded-full text-xs">24 in stock</span></td>
+                                <td class="p-4 text-blue-600 space-x-2">
+                                    <button class="hover:underline">Edit</button>
+                                    <button class="text-red-500 hover:underline">Delete</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
     </div>
-
-    <div class="product">
-      <img src="https://via.placeholder.com/200">
-      <h3>Headphones</h3>
-      <p>₹1499</p>
-      <button>Add to Cart</button>
-    </div>
-
-    <div class="product">
-      <img src="https://via.placeholder.com/200">
-      <h3>Shoes</h3>
-      <p>₹1999</p>
-      <button>Add to Cart</button>
-    </div>
-
-  </div>
-</section>
-
-<!-- CATEGORIES -->
-<section class="categories">
-  <h2>Shop by Category</h2>
-  <div class="category-grid">
-    <div>Clothing</div>
-    <div>Electronics</div>
-    <div>Accessories</div>
-  </div>
-</section>
-
-<!-- NEWSLETTER -->
-<section class="newsletter">
-  <h2>Subscribe</h2>
-  <input type="email" placeholder="Enter your email">
-  <button>Subscribe</button>
-</section>
-
-<!-- FOOTER -->
-<footer>
-  <p>© 2026 MyShop | All Rights Reserved</p>
-</footer>
 
 </body>
 </html>
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-}
-
-/* HEADER */
-header {
-  display: flex;
-  justify-content: space-between;
-  padding: 15px 30px;
-  background: #111;
-  color: white;
-}
-
-header a {
-  color: white;
-  margin: 0 10px;
-  text-decoration: none;
-}
-
-/* HERO */
-.hero {
-  text-align: center;
-  padding: 80px;
-  background: linear-gradient(to right, #ff7e5f, #feb47b);
-  color: white;
-}
-
-.hero button {
-  padding: 10px 20px;
-  border: none;
-  background: black;
-  color: white;
-  cursor: pointer;
-}
-
-/* PRODUCTS */
-.products {
-  padding: 40px;
-  text-align: center;
-}
-
-.product-grid {
-  display: flex;
-  justify-content: center;
-  gap: 20px;
-}
-
-.product {
-  border: 1px solid #ddd;
-  padding: 20px;
-  width: 200px;
-}
-
-.product button {
-  background: black;
-  color: white;
-  border: none;
-  padding: 8px;
-  cursor: pointer;
-}
-
-/* CATEGORIES */
-.categories {
-  padding: 40px;
-  text-align: center;
-  background: #f5f5f5;
-}
-
-.category-grid {
-  display: flex;
-  justify-content: center;
-  gap: 20px;
-}
-
-.category-grid div {
-  background: white;
-  padding: 20px;
-  border: 1px solid #ddd;
-}
-
-/* NEWSLETTER */
-.newsletter {
-  text-align: center;
-  padding: 40px;
-}
-
-.newsletter input {
-  padding: 10px;
-  width: 250px;
-}
-
-.newsletter button {
-  padding: 10px;
-  background: black;
-  color: white;
-  border: none;
-}
-
-/* FOOTER */
-footer {
-  background: #111;
-  color: white;
-  text-align: center;
-  padding: 15px;
-}
