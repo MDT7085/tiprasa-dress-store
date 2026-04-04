@@ -174,6 +174,8 @@ let price=document.getElementById("price").value;
 let cat=document.getElementById("category").value;
 let files=document.getElementById("imgFile").files;
 
+if(files.length===0){alert("Select image");return;}
+
 let images=[];
 for(let f of files){
 images.push(await resizeImage(f));
@@ -187,13 +189,17 @@ render();
 /* RENDER */
 function render(){
 let grid=document.getElementById("grid");
+if(!grid) return;
+
 grid.innerHTML="";
-let s=document.getElementById("search").value.toLowerCase();
+
+let searchInput=document.getElementById("search");
+let s=searchInput?searchInput.value.toLowerCase():"";
 
 products.forEach((p,i)=>{
 if(!p.name.toLowerCase().includes(s)) return;
 
-let adminBtns = document.getElementById("admin").style.display==="block"
+let adminBtns=document.getElementById("admin").style.display==="block"
 ? `<button onclick="editProduct(${i})">Edit</button>
    <button onclick="deleteProduct(${i})">Delete</button>`:"";
 
@@ -273,25 +279,54 @@ updateCartCount();
 }
 
 function sendOrder(){
+if(cart.length===0){alert("Cart empty");return;}
+
 let msg="Order:%0A";
 cart.forEach(p=>msg+=`${p.name} - ₹${p.price}%0A`);
+
 window.open(`https://wa.me/919863653392?text=${msg}`);
 }
 
 /* DELETE */
 function deleteProduct(i){
+if(confirm("Delete product?")){
 products.splice(i,1);
 localStorage.setItem("p",JSON.stringify(products));
 render();
 }
+}
 
 /* EDIT */
-function editProduct(i){
+async function editProduct(i){
 let p=products[i];
-p.name=prompt("Name",p.name);
-p.price=prompt("Price",p.price);
+
+let name=prompt("Edit name",p.name);
+let price=prompt("Edit price",p.price);
+
+if(name) p.name=name;
+if(price) p.price=price;
+
+let change=confirm("Change images?");
+if(change){
+let input=document.createElement("input");
+input.type="file";
+input.multiple=true;
+
+input.onchange=async()=>{
+let imgs=[];
+for(let f of input.files){
+imgs.push(await resizeImage(f));
+}
+p.images=imgs;
 localStorage.setItem("p",JSON.stringify(products));
 render();
+};
+
+input.click();
+}else{
+localStorage.setItem("p",JSON.stringify(products));
+render();
+}
 }
 
 render();
