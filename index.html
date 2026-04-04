@@ -1,105 +1,270 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Flipkart Admin Panel</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tripura Vastra</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+<style>
+:root{
+--primary:#ff6b6b;
+--dark:#2c3e50;
+--light:#f5f5f5;
+--white:#fff;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:Poppins;background:var(--light);}
+
+/* NAV */
+nav{display:flex;justify-content:space-between;padding:15px 25px;background:#fff;box-shadow:0 2px 10px rgba(0,0,0,0.1);}
+.logo{color:#c0392b;font-family:'Playfair Display';}
+
+/* HERO */
+.hero{
+height:250px;
+background:linear-gradient(rgba(0,0,0,0.6),rgba(0,0,0,0.6)),
+url('https://images.unsplash.com/photo-1583391733956-3750e0ff4e8b');
+background-size:cover;
+display:flex;align-items:center;justify-content:center;flex-direction:column;color:#fff;
+}
+
+/* CATEGORY */
+.controls{background:#fff;margin:-40px auto 30px;width:90%;padding:15px;border-radius:15px;text-align:center;}
+.cat-btn{padding:8px 15px;border:none;border-radius:20px;margin:5px;background:#eee;}
+.cat-btn.active{background:var(--primary);color:#fff;}
+
+/* GRID */
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;padding:20px;}
+.card{background:#fff;border-radius:15px;overflow:hidden;text-align:center;box-shadow:0 4px 10px rgba(0,0,0,0.1);cursor:pointer;}
+.card img{width:100%;height:300px;object-fit:cover;}
+.price{color:var(--primary);font-weight:bold;}
+.btn{background:var(--dark);color:#fff;padding:12px;border:none;border-radius:8px;margin:10px;cursor:pointer;width:80%;}
+
+/* MODAL */
+.modal{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.8);display:none;align-items:center;justify-content:center;}
+.modal-box{background:#fff;display:grid;grid-template-columns:1fr 1fr;max-width:900px;width:90%;border-radius:15px;overflow:hidden;position:relative;}
+.slider img{width:100%;height:100%;object-fit:cover;display:none;}
+.slider img.active{display:block;}
+.modal-body{padding:20px;}
+.close{position:absolute;right:15px;top:10px;font-size:25px;cursor:pointer;}
+.nav-btn{position:absolute;top:50%;transform:translateY(-50%);background:rgba(0,0,0,0.5);color:#fff;border:none;padding:10px;cursor:pointer;}
+.prev{left:10px;} .next{right:10px;}
+
+/* BUTTON COLORS */
+.upi{background:#3498db;}
+.wa{background:#2ecc71;}
+.back{background:#e74c3c;}
+
+/* ADMIN */
+.admin{display:none;background:#fff;margin:40px auto;padding:30px;width:90%;border-radius:15px;border:2px dashed var(--primary);}
+.admin input,select,textarea{width:100%;padding:10px;margin:8px 0;border-radius:8px;border:1px solid #ddd;}
+
+/* REVIEWS */
+.reviews{padding:40px;}
+.review-box{background:#fff;padding:15px;border-radius:10px;margin-top:10px;}
+
+/* FOOTER */
+footer{background:#1e2a38;color:#fff;text-align:center;padding:40px;margin-top:50px;}
+</style>
 </head>
-<body class="bg-gray-100 font-sans">
 
-    <div class="flex h-screen overflow-hidden">
-        <aside class="w-64 bg-blue-700 text-white flex-shrink-0 hidden md:flex flex-col">
-            <div class="p-6 text-2xl font-bold border-b border-blue-600">
-                Flipkart Admin
-            </div>
-            <nav class="flex-grow p-4 space-y-2">
-                <a href="#" class="block p-3 bg-blue-800 rounded-lg flex items-center"><i class="fas fa-tachometer-alt mr-3"></i> Dashboard</a>
-                <a href="#" class="block p-3 hover:bg-blue-600 rounded-lg flex items-center transition"><i class="fas fa-box mr-3"></i> Products</a>
-                <a href="#" class="block p-3 hover:bg-blue-600 rounded-lg flex items-center transition"><i class="fas fa-shopping-cart mr-3"></i> Orders</a>
-                <a href="#" class="block p-3 hover:bg-blue-600 rounded-lg flex items-center transition"><i class="fas fa-users mr-3"></i> Customers</a>
-                <a href="#" class="block p-3 hover:bg-blue-600 rounded-lg flex items-center transition"><i class="fas fa-ad mr-3"></i> Offers & Banners</a>
-            </nav>
-            <div class="p-4 border-t border-blue-600">
-                <button class="w-full bg-red-500 hover:bg-red-600 p-2 rounded text-sm transition">Logout</button>
-            </div>
-        </aside>
+<body>
 
-        <main class="flex-1 overflow-y-auto">
-            <header class="bg-white shadow-sm p-4 flex justify-between items-center sticky top-0">
-                <h2 class="text-xl font-semibold text-gray-800">Product Management</h2>
-                <div class="flex items-center space-x-4">
-                    <span class="text-gray-600 italic text-sm">Welcome, Admin</span>
-                    <img src="https://ui-avatars.com/api/?name=Admin&background=2874f0&color=fff" class="w-10 h-10 rounded-full border">
-                </div>
-            </header>
+<nav>
+<div class="logo">TRIPURA VASTRA</div>
+<div><i class="fas fa-user"></i> Account</div>
+</nav>
 
-            <div class="p-6">
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-                    <div class="bg-white p-6 rounded-xl shadow-sm border-l-4 border-blue-500">
-                        <p class="text-gray-500 text-sm font-medium">Total Sales</p>
-                        <h3 class="text-2xl font-bold">₹12,45,000</h3>
-                    </div>
-                    <div class="bg-white p-6 rounded-xl shadow-sm border-l-4 border-yellow-500">
-                        <p class="text-gray-500 text-sm font-medium">Pending Orders</p>
-                        <h3 class="text-2xl font-bold">48</h3>
-                    </div>
-                    <div class="bg-white p-6 rounded-xl shadow-sm border-l-4 border-green-500">
-                        <p class="text-gray-500 text-sm font-medium">Active Products</p>
-                        <h3 class="text-2xl font-bold">1,240</h3>
-                    </div>
-                </div>
+<section class="hero" id="hero">
+<h1>Tripura Vastra</h1>
+<p>(Tiprasa Kanmung-Chumung)</p>
+</section>
 
-                <div class="bg-white rounded-xl shadow-sm p-6 mb-8">
-                    <div class="flex justify-between items-center mb-6">
-                        <h3 class="text-lg font-bold text-gray-800">Add New Product</h3>
-                        <button class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">+ Add Product</button>
-                    </div>
-                    
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                        <input type="text" placeholder="Product Name" class="border p-2 rounded-lg w-full focus:ring-2 focus:ring-blue-400 outline-none">
-                        <select class="border p-2 rounded-lg w-full focus:ring-2 focus:ring-blue-400 outline-none">
-                            <option>Category</option>
-                            <option>Electronics</option>
-                            <option>Fashion</option>
-                            <option>Home</option>
-                        </select>
-                        <input type="number" placeholder="Price (₹)" class="border p-2 rounded-lg w-full focus:ring-2 focus:ring-blue-400 outline-none">
-                        <input type="number" placeholder="Stock Quantity" class="border p-2 rounded-lg w-full focus:ring-2 focus:ring-blue-400 outline-none">
-                    </div>
-                </div>
+<div class="controls">
+<button class="cat-btn active">All</button>
+<button class="cat-btn">Tripura Rignai</button>
+<button class="cat-btn">Debbarma Rignai</button>
+<button class="cat-btn">Reang Rignai</button>
+</div>
 
-                <div class="bg-white rounded-xl shadow-sm overflow-hidden border">
-                    <table class="w-full text-left border-collapse">
-                        <thead class="bg-gray-50 border-b">
-                            <tr>
-                                <th class="p-4 font-semibold text-gray-700">Image</th>
-                                <th class="p-4 font-semibold text-gray-700">Product Name</th>
-                                <th class="p-4 font-semibold text-gray-700">Category</th>
-                                <th class="p-4 font-semibold text-gray-700">Price</th>
-                                <th class="p-4 font-semibold text-gray-700">Stock</th>
-                                <th class="p-4 font-semibold text-gray-700">Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody class="divide-y">
-                            <tr>
-                                <td class="p-4"><div class="w-12 h-12 bg-gray-200 rounded"></div></td>
-                                <td class="p-4 font-medium">iPhone 15 Pro</td>
-                                <td class="p-4 text-gray-600">Electronics</td>
-                                <td class="p-4 font-bold">₹1,29,900</td>
-                                <td class="p-4"><span class="px-2 py-1 bg-green-100 text-green-700 rounded-full text-xs">24 in stock</span></td>
-                                <td class="p-4 text-blue-600 space-x-2">
-                                    <button class="hover:underline">Edit</button>
-                                    <button class="text-red-500 hover:underline">Delete</button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </main>
-    </div>
+<!-- ADMIN -->
+<div id="admin" class="admin">
+<h2>Owner Dashboard</h2>
+
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;">
+
+<div>
+<h3>Upload Product</h3>
+<input id="name" placeholder="Product Name">
+<input id="price" type="number" placeholder="Price">
+<input type="file" id="imgFile" multiple>
+<button class="btn" onclick="addProduct()">Save Product</button>
+</div>
+
+<div>
+<h3>Banner & Reviews</h3>
+<input id="banner" placeholder="Banner Image URL">
+<button class="btn" onclick="changeBanner()">Update Banner</button>
+
+<input id="rname" placeholder="Customer Name">
+<textarea id="rtext" placeholder="Review"></textarea>
+<button class="btn wa" onclick="addReview()">Add Review</button>
+</div>
+
+</div>
+
+<button class="btn back" onclick="location.reload()">Exit</button>
+</div>
+
+<!-- PRODUCTS -->
+<div class="grid" id="grid"></div>
+
+<!-- MODAL -->
+<div class="modal" id="modal">
+<div class="modal-box">
+
+<div class="slider" id="slider"></div>
+
+<div class="modal-body">
+<span class="close" onclick="closeModal()">×</span>
+<h2 id="mname"></h2>
+<h3 id="mprice"></h3>
+
+<button class="btn upi">Pay via UPI</button>
+<button class="btn wa">WhatsApp</button>
+<button class="btn back" onclick="closeModal()">Go Back</button>
+</div>
+
+<button class="nav-btn prev" onclick="changeSlide(-1)">❮</button>
+<button class="nav-btn next" onclick="changeSlide(1)">❯</button>
+
+</div>
+</div>
+
+<!-- REVIEWS -->
+<div class="reviews">
+<h2>Customer Reviews</h2>
+<div id="reviews"></div>
+</div>
+
+<footer>
+<h3>Tripura Vastra (Tiprasa Kanmung-Chumung)</h3>
+<p>DESIGNED BY MATINDRA TRIPURA</p>
+<p style="opacity:0.4;cursor:pointer;" onclick="login()">Owner Login</p>
+</footer>
+
+<script>
+const PASS="MATINDRA";
+
+let products=JSON.parse(localStorage.getItem("p"))||[];
+let reviews=JSON.parse(localStorage.getItem("r"))||[];
+
+let currentSlide=0;
+
+/* LOGIN */
+function login(){
+let p=prompt("Enter Password:");
+if(p===PASS){
+document.getElementById("admin").style.display="block";
+}
+}
+
+/* ADD PRODUCT (MULTIPLE IMAGE UPLOAD) */
+function addProduct(){
+const name=document.getElementById("name").value;
+const price=document.getElementById("price").value;
+const files=document.getElementById("imgFile").files;
+
+if(files.length===0){alert("Select images");return;}
+
+let images=[],loaded=0;
+
+Array.from(files).forEach(file=>{
+const reader=new FileReader();
+reader.onload=e=>{
+images.push(e.target.result);
+loaded++;
+if(loaded===files.length){
+products.push({name,price,images});
+localStorage.setItem("p",JSON.stringify(products));
+render();
+}
+};
+reader.readAsDataURL(file);
+});
+}
+
+/* RENDER */
+function render(){
+let grid=document.getElementById("grid");
+grid.innerHTML="";
+products.forEach((p,i)=>{
+grid.innerHTML+=`
+<div class="card" onclick="openModal(${i})">
+<img src="${p.images[0]}">
+<h3>${p.name}</h3>
+<p class="price">₹${p.price}</p>
+<button class="btn">View Details</button>
+</div>`;
+});
+
+let rbox=document.getElementById("reviews");
+rbox.innerHTML="";
+reviews.forEach(r=>{
+rbox.innerHTML+=`<div class="review-box"><b>${r.name}</b><p>${r.text}</p></div>`;
+});
+}
+
+/* MODAL */
+function openModal(i){
+let p=products[i];
+let slider=document.getElementById("slider");
+slider.innerHTML="";
+
+p.images.forEach((img,index)=>{
+slider.innerHTML+=`<img src="${img}" class="${index===0?'active':''}">`;
+});
+
+currentSlide=0;
+
+document.getElementById("modal").style.display="flex";
+document.getElementById("mname").innerText=p.name;
+document.getElementById("mprice").innerText="₹"+p.price;
+}
+
+/* SLIDER */
+function changeSlide(d){
+let slides=document.querySelectorAll(".slider img");
+slides[currentSlide].classList.remove("active");
+currentSlide=(currentSlide+d+slides.length)%slides.length;
+slides[currentSlide].classList.add("active");
+}
+
+/* CLOSE */
+function closeModal(){
+document.getElementById("modal").style.display="none";
+}
+
+/* REVIEW */
+function addReview(){
+let name=document.getElementById("rname").value;
+let text=document.getElementById("rtext").value;
+reviews.push({name,text});
+localStorage.setItem("r",JSON.stringify(reviews));
+render();
+}
+
+/* BANNER */
+function changeBanner(){
+let url=document.getElementById("banner").value;
+document.getElementById("hero").style.backgroundImage=`url(${url})`;
+}
+
+render();
+</script>
 
 </body>
 </html>
